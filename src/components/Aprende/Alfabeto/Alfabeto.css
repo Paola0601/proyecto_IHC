@@ -1,0 +1,227 @@
+.alfabeto-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.alfabeto-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.back-button {
+  display: inline-block;
+  margin-bottom: 2rem;
+  padding: 0.8rem 1.5rem;
+  background: #f5f5f5;
+  color: #333;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background: #e0e0e0;
+  transform: translateX(-5px);
+}
+
+.alfabeto-header h1 {
+  font-size: 2.5rem;
+  color: #333333;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1rem auto;
+  max-width: 500px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF8C42, #FF6B35);
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+.progress-text {
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.flashcard-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  margin: 2rem 0;
+}
+
+.flashcard {
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  cursor: pointer;
+}
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.flashcard-front {
+  background: linear-gradient(135deg, #FF8C42 0%, #FFB84D 100%);
+  color: white;
+}
+
+.flashcard-back {
+  background: white;
+  transform: rotateY(180deg);
+  border: 3px solid #FF8C42;
+}
+
+.letter-display,
+.sign-display {
+  text-align: center;
+  width: 100%;
+}
+
+.letter-display h2,
+.sign-display h2 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.sign-display h2 {
+  color: #333;
+}
+
+.letter {
+  font-size: 10rem;
+  font-weight: 900;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  line-height: 1;
+}
+
+.sign-image {
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sign-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.hint {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #FF8C42;
+  color: white;
+  min-width: 150px;
+}
+
+.control-btn:hover:not(:disabled) {
+  background: #FF6B35;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 140, 66, 0.3);
+}
+
+.control-btn:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.flip-btn {
+  background: #333333;
+}
+
+.flip-btn:hover {
+  background: #555555;
+}
+
+@media screen and (max-width: 768px) {
+  .alfabeto-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .flashcard {
+    height: 350px;
+    max-width: 100%;
+  }
+
+  .letter {
+    font-size: 7rem;
+  }
+
+  .sign-image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .control-btn {
+    width: 100%;
+  }
+}

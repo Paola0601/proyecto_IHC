@@ -8,6 +8,8 @@ import {
   NotFound,
   Dashboard,
 } from "./components";
+import Aprende from "./components/Aprende/Aprende";
+import Alfabeto from "./components/Aprende/Alfabeto/Alfabeto";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -65,6 +67,26 @@ function App() {
             </Layout>
           }
         />
+
+          <Route
+            exact
+            path="/aprende"
+            element={
+              <Layout>
+                <Aprende />
+              </Layout>
+            }
+          />
+
+          <Route
+            exact
+            path="/aprende/alfabeto"
+            element={
+              <Layout>
+                <Alfabeto />
+              </Layout>
+            }
+          />
 
         <Route exact path="*" element={<NotFound />} />
       </Routes>

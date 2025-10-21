@@ -47,20 +47,24 @@ const Navbar = ({ notifyMsg }) => {
 
         <div className="signlang_navlinks_container">
           <p>
-            <Link to="/">Home</Link>
+            <Link to="/">INICIO</Link>
           </p>
 
           <p>
-            <Link to="/detect">Detect</Link>
+            <Link to="/detect">PRACTICA</Link>
           </p>
 
-          {/* <p>
-            <Link to="/guide">Guide</Link>
-          </p> */}
+          <p>
+            <Link to="/aprende">APRENDE</Link>
+          </p>
+
+          <p>
+            <Link to="/insignias">INSIGNIAS</Link>
+          </p>
 
           {accessToken && (
             <p>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard">MI AVANCE</Link>
             </p>
           )}
         </div>
@@ -70,12 +74,12 @@ const Navbar = ({ notifyMsg }) => {
             <>
               <img src={user?.photoURL} alt="user-icon" />
               <button type="button" onClick={handleLogout}>
-                Logout
+                SALIR
               </button>
             </>
           ) : (
             <button type="button" onClick={handleLogin}>
-              Login
+              INGRESAR
             </button>
           )}
         </div>
@@ -84,27 +88,35 @@ const Navbar = ({ notifyMsg }) => {
       <div className="signlang__navbar-menu">
         {toggle ? (
           <RiCloseLine
-            color="#fff"
+            color="#333333"
             size={27}
             onClick={() => setToggle(false)}
           />
         ) : (
-          <RiMenu3Line color="#fff" size={27} onClick={() => setToggle(true)} />
+          <RiMenu3Line color="#333333" size={27} onClick={() => setToggle(true)} />
         )}
         {toggle && (
           <div className="signlang__navbar-menu_container scale-up-center">
             <div className="signlang__navbar-menu_container-links">
               <p>
-                <Link to="/">Home</Link>
+                <Link to="/">INICIO</Link>
               </p>
 
               <p>
-                <Link to="/detect">Detect</Link>
+                <Link to="/detect">PRACTICA</Link>
+              </p>
+
+              <p>
+                <Link to="/aprende">APRENDE</Link>
+              </p>
+
+              <p>
+                <Link to="/insignias">INSIGNIAS</Link>
               </p>
 
               {accessToken && (
                 <p>
-                  <Link to="/dashboard">Dashboard</Link>
+                  <Link to="/dashboard">MI AVANCE</Link>
                 </p>
               )}
             </div>
@@ -114,12 +126,12 @@ const Navbar = ({ notifyMsg }) => {
                 <>
                   <img src={user?.photoURL} alt="user-icon" />
                   <button type="button" onClick={handleLogout}>
-                    Logout
+                    SALIR
                   </button>
                 </>
               ) : (
                 <button type="button" onClick={handleLogin}>
-                  Login
+                  INGRESAR
                 </button>
               )}
             </div>
