@@ -232,17 +232,35 @@
   background: linear-gradient(135deg, var(--light-yellow), var(--yellow-accent));
 }
 
+
+/* Botón SALIR: transparente y ligeramente más pequeño */
 .logout-btn {
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
   color: var(--background-white);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
+  padding: 0.6rem 1rem; /* más pequeño */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: none;
 }
 
 .logout-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.logout-btn:focus-visible {
+  outline: 3px solid rgba(255, 197, 87, 0.6); /* yellow accent ring for focus */
+  outline-offset: 2px;
+}
+
+/* En el menú móvil (fondo blanco), usa azul para mantener contraste */
+.signlang__navbar-menu_container .logout-btn {
+  color: var(--medium-blue);
+  border-color: var(--medium-blue);
+}
+
+.signlang__navbar-menu_container .logout-btn:hover {
+  background: rgba(80, 112, 152, 0.08);
 }
 
 .button-icon {
@@ -271,29 +289,28 @@
 
 .signlang_auth-data button,
 .signlang__navbar-menu_container button {
-    padding: 0.8rem 1.5rem;
-    position: relative;
-    left: 25px;
-    color: #fff;
-    background: #FF8C42;
-    font-family: var(--font-family);
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 25px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    border-radius: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: background 0.3s ease;
+  padding: 0.8rem 1.5rem;
+  position: relative;
+  left: 25px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 25px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: var(--transition);
 }
 
-.signlang_auth-data button:hover,
-.signlang__navbar-menu_container button:hover {
-    background: linear-gradient(135deg, var(--light-yellow), var(--yellow-accent));
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(255, 197, 87, 0.4);
+/* Hover solo para el botón de ingresar (login) */
+.signlang_auth-data .login-btn:hover,
+.signlang__navbar-menu_container .login-btn:hover {
+  background: linear-gradient(135deg, var(--light-yellow), var(--yellow-accent));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 197, 87, 0.4);
 }
 
 /* Mobile menu */

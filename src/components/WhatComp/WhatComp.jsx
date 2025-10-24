@@ -8,8 +8,8 @@ const WhatComp = () => {
     <div className="signlang__whatsignlang section__margin" id="whatsignlang">
       <div className="signlang__whatsignlang-feature">
         <Feature
-          title="What is Sign Language"
-          text="Sign Language is a visual language using hand gestures, facial expressions, and body movements to communicate. It is recognized as an official language in many countries and is primarily used by people who are deaf or hard of hearing."
+          title="¿Qué es el Lenguaje de Señas?"
+          text="El Lenguaje de Señas es una lengua visual que utiliza movimientos de las manos, expresiones faciales y posturas corporales para comunicarse. Está reconocido oficialmente en muchos países y es utilizado principalmente por personas sordas o con pérdida auditiva, aunque todos podemos aprenderlo para construir una comunicación más inclusiva."
         />
       </div>
 

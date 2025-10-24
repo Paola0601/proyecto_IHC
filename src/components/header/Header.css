@@ -1,6 +1,9 @@
 .signlang__header {
     display: flex;
     flex-direction: row;
+    /* Very light yellow, almost white */
+    background: linear-gradient(135deg, #FFFDF2 0%, #FFF6D9 100%);
+    min-height: 100vh;
 }
 
 .signlang__header-content {
@@ -19,7 +22,8 @@
     font-size: 62px;
     line-height: 75px;
     letter-spacing: -0.04em;
-    color: #333333;
+    color: #507098;
+    text-shadow: 0 2px 4px rgba(80, 112, 152, 0.1);
 }
 
 .signlang__header-content p {
@@ -27,7 +31,7 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 28px;
-    color: var(--color-text);
+    color: #46657F;
 
     margin-top: 1.5rem;
 }

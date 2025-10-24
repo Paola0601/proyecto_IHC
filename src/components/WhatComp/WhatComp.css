@@ -1,26 +1,12 @@
 .signlang__whatsignlang {
     display: flex;
     flex-direction: column;
-
     padding: 2rem;
-    background: var(--color-footer);
-
-    /* ff 3.6+ */
-    background:-moz-radial-gradient(circle at 30% -100%, #042c54 25%, rgba(4, 44, 84, 1) 85%, rgba(27, 120, 222, 1) 100%);
-
-    /* safari 5.1+,chrome 10+ */
-    background:-webkit-radial-gradient(circle at 30% -100%, #042c54 25%, rgba(4, 44, 84, 1) 85%, rgba(27, 120, 222, 1) 100%);
-
-    /* opera 11.10+ */
-    background:-o-radial-gradient(circle at 30% -100%, #042c54 25%, rgba(4, 44, 84, 1) 85%, rgba(27, 120, 222, 1) 100%);
-
-    /* ie 10+ */
-    background:-ms-radial-gradient(circle at 30% -100%, #042c54 25%, rgba(4, 44, 84, 1) 85%, rgba(27, 120, 222, 1) 100%);
-
-    /* global 92%+ browsers support */
-    background:radial-gradient(circle at 30% -100%, #042c54 25%, rgba(4, 44, 84, 1) 85%, rgba(27, 120, 222, 1) 100%);
-
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    /* Fondo suave en amarillo muy claro, alineado al Header */
+    background: linear-gradient(135deg, #FFFDF2 0%, #FFF6D9 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
 }
 
 .signlang__whatsignlang-feature {
@@ -30,11 +16,17 @@
 /* Customizing feature component as per needs */
 .signlang__whatsignlang-feature .signlang__features-container__feature {
     margin: 0;
+    background: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+    padding: 1.25rem;
 }
 
 /* Customizing feature component as per needs */
 .signlang__whatsignlang-feature .signlang__features-container_feature-text {
     max-width: 700px;
+    color: var(--text-dark);
 }
 
 .signlang__whatsignlang-heading {
@@ -52,14 +44,15 @@
     font-weight: 800;
     font-family: var(--font-family);
     max-width: 510px;
+    color: var(--medium-blue);
 }
 
 .signlang__whatsignlang-container {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-
-    margin-top: 5rem;
+    gap: 1rem;
+    margin-top: 3rem;
 }
 
 /* Customizing feature component as per needs */
@@ -69,11 +62,25 @@
     min-width: 210px;
     display: unset;
     flex-direction: column;
+    background: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+    padding: 1.25rem;
+    transition: var(--transition);
 }
 
 /* Customizing feature component as per needs */
 .signlang__whatsignlang-container .signlang__features-container_feature-text {
     margin-top: 0.5rem;
+    color: var(--text-dark);
+}
+
+/* Hover agradable con acento amarillo */
+.signlang__whatsignlang-container .signlang__features-container__feature:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255, 197, 87, 0.25);
+    border-color: rgba(255, 197, 87, 0.6);
 }
 
 @media screen and (max-width: 850px) {
