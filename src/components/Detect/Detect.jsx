@@ -41,9 +41,13 @@ const Detect = () => {
 
   const [currentImage, setCurrentImage] = useState(null);
 
+  // Manejo de imágenes de práctica
+  const [autoChangeImage, setAutoChangeImage] = useState(false);
+
   useEffect(() => {
     let intervalId;
-    if (webcamRunning) {
+    // Solo ejecutar el intervalo si la cámara está activa y el cambio automático está activado
+    if (webcamRunning && autoChangeImage) {
       intervalId = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * SignImageData.length);
         const randomImage = SignImageData[randomIndex];
@@ -51,7 +55,7 @@ const Detect = () => {
       }, 5000);
     }
     return () => clearInterval(intervalId);
-  }, [webcamRunning]);
+  }, [webcamRunning, autoChangeImage]);
 
   if (
     process.env.NODE_ENV === "development" ||
@@ -61,64 +65,66 @@ const Detect = () => {
   }
 
   const predictWebcam = useCallback(() => {
+    if (!webcamRef.current || !webcamRef.current.video || webcamRef.current.video.readyState !== 4) {
+      return;
+    }
+
     if (runningMode === "IMAGE") {
       setRunningMode("VIDEO");
       gestureRecognizer.setOptions({ runningMode: "VIDEO" });
     }
 
+    const video = webcamRef.current.video;
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
+
+    // Asegurarse de que el video tenga dimensiones válidas
+    if (videoWidth === 0 || videoHeight === 0) {
+      return;
+    }
+
     let nowInMs = Date.now();
-    const results = gestureRecognizer.recognizeForVideo(
-      webcamRef.current.video,
-      nowInMs
-    );
+    const results = gestureRecognizer.recognizeForVideo(video, nowInMs);
 
     const canvasCtx = canvasRef.current.getContext("2d");
     canvasCtx.save();
-    canvasCtx.clearRect(
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
-    );
+    canvasCtx.clearRect(0, 0, videoWidth, videoHeight);
 
-    const videoWidth = webcamRef.current.video.videoWidth;
-    const videoHeight = webcamRef.current.video.videoHeight;
-
-    // Set video width
-    webcamRef.current.video.width = videoWidth;
-    webcamRef.current.video.height = videoHeight;
-
-    // Set canvas height and width
-    canvasRef.current.width = videoWidth;
-    canvasRef.current.height = videoHeight;
+    // Asegurarse de que el canvas tenga las mismas dimensiones que el video
+    if (canvasRef.current.width !== videoWidth || canvasRef.current.height !== videoHeight) {
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
+    }
 
     // Draw the results on the canvas, if any.
     if (results.landmarks) {
       for (const landmarks of results.landmarks) {
         drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-          color: "#00FF00",
+          color: "#FFC657",
           lineWidth: 5,
         });
 
-        drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 2 });
+        drawLandmarks(canvasCtx, landmarks, { color: "#46657F", lineWidth: 2 });
       }
     }
-    if (results.gestures.length > 0) {
-      setDetectedData((prevData) => [
-        ...prevData,
-        {
-          SignDetected: results.gestures[0][0].categoryName,
-        },
-      ]);
+      if (results.gestures && results.gestures.length > 0 && 
+          results.gestures[0] && results.gestures[0][0]) {
+        const gesture = results.gestures[0][0];
+        if (gesture.categoryName) {
+          setDetectedData((prevData) => [
+            ...prevData,
+            {
+              SignDetected: gesture.categoryName,
+            },
+          ]);
 
-      setGestureOutput(results.gestures[0][0].categoryName);
-      setProgress(Math.round(parseFloat(results.gestures[0][0].score) * 100));
-    } else {
-      setGestureOutput("");
-      setProgress("");
-    }
-
-    if (webcamRunning === true) {
+          setGestureOutput(gesture.categoryName);
+          setProgress(Math.round(parseFloat(gesture.score) * 100));
+        }
+      } else {
+        setGestureOutput("");
+        setProgress("");
+      }    if (webcamRunning === true) {
       requestRef.current = requestAnimationFrame(predictWebcam);
     }
   }, [webcamRunning, runningMode, gestureRecognizer, setGestureOutput]);
@@ -128,9 +134,23 @@ const Detect = () => {
     predictWebcam();
   }, [predictWebcam]);
 
+  const stopCamera = useCallback(() => {
+    const stream = webcamRef.current?.video?.srcObject;
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      webcamRef.current.video.srcObject = null;
+    }
+  }, []);
+
   const enableCam = useCallback(() => {
     if (!gestureRecognizer) {
-      alert("Please wait for gestureRecognizer to load");
+      alert("Por favor, espera a que el reconocedor de gestos se cargue.");
+      return;
+    }
+
+    // Asegúrate de que la webcam esté disponible
+    if (!webcamRef.current) {
+      alert("La webcam no está disponible.");
       return;
     }
 
@@ -138,6 +158,13 @@ const Detect = () => {
       setWebcamRunning(false);
       cancelAnimationFrame(requestRef.current);
       setCurrentImage(null);
+      stopCamera();
+      
+      // Limpiar el canvas
+      if (canvasRef.current) {
+        const canvasCtx = canvasRef.current.getContext("2d");
+        canvasCtx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      }
 
       const endTime = new Date();
 
@@ -148,64 +175,87 @@ const Detect = () => {
 
       // Remove empty values
       const nonEmptyData = detectedData.filter(
-        (data) => data.SignDetected !== "" && data.DetectedScore !== ""
+        (data) => data && data.SignDetected && data.SignDetected !== ""
       );
+
+      // Verificar si hay datos antes de procesar
+      if (nonEmptyData.length === 0) {
+        return;
+      }
 
       //to filter continous same signs in an array
       const resultArray = [];
       let current = nonEmptyData[0];
 
       for (let i = 1; i < nonEmptyData.length; i++) {
-        if (nonEmptyData[i].SignDetected !== current.SignDetected) {
+        if (nonEmptyData[i] && current && 
+            nonEmptyData[i].SignDetected !== current.SignDetected) {
           resultArray.push(current);
           current = nonEmptyData[i];
         }
       }
 
-      resultArray.push(current);
+      if (current) {
+        resultArray.push(current);
+      }
 
       //calculate count for each repeated sign
       const countMap = new Map();
 
-      for (const item of resultArray) {
-        const count = countMap.get(item.SignDetected) || 0;
-        countMap.set(item.SignDetected, count + 1);
+      // Verificar si hay resultados antes de procesarlos
+      if (resultArray.length > 0) {
+        for (const item of resultArray) {
+          if (item && item.SignDetected) {
+            const count = countMap.get(item.SignDetected) || 0;
+            countMap.set(item.SignDetected, count + 1);
+          }
+        }
+
+        const sortedArray = Array.from(countMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const outputArray = sortedArray
+          .slice(0, 5)
+          .map(([sign, count]) => ({ SignDetected: sign, count }));
+
+        // object to send to action creator
+        const data = {
+          signsPerformed: outputArray,
+          id: uuidv4(),
+          username: user?.name,
+          userId: user?.userId,
+          createdAt: String(endTime),
+          secondsSpent: Number(timeElapsed),
+        };
+
+        dispatch(addSignData(data));
+        setDetectedData([]);
       }
-
-      const sortedArray = Array.from(countMap.entries()).sort(
-        (a, b) => b[1] - a[1]
-      );
-
-      const outputArray = sortedArray
-        .slice(0, 5)
-        .map(([sign, count]) => ({ SignDetected: sign, count }));
-
-      // object to send to action creator
-      const data = {
-        signsPerformed: outputArray,
-        id: uuidv4(),
-        username: user?.name,
-        userId: user?.userId,
-        createdAt: String(endTime),
-        secondsSpent: Number(timeElapsed),
-      };
-
-      dispatch(addSignData(data));
-      setDetectedData([]);
     } else {
-      setWebcamRunning(true);
-      startTime = new Date();
-      requestRef.current = requestAnimationFrame(animate);
+      // Iniciar la cámara
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          webcamRef.current.video.srcObject = stream;
+          setWebcamRunning(true);
+          startTime = new Date();
+          requestRef.current = requestAnimationFrame(animate);
+          
+          // Configurar el canvas con las dimensiones correctas
+          const videoElement = webcamRef.current.video;
+          videoElement.onloadedmetadata = () => {
+            const width = videoElement.videoWidth;
+            const height = videoElement.videoHeight;
+            canvasRef.current.width = width;
+            canvasRef.current.height = height;
+          };
+        })
+        .catch(err => {
+          alert("No se pudo acceder a la cámara. Por favor, asegúrate de que tienes una cámara conectada y que has dado los permisos necesarios.");
+          console.error(err);
+        });
     }
-  }, [
-    webcamRunning,
-    gestureRecognizer,
-    animate,
-    detectedData,
-    user?.name,
-    user?.userId,
-    dispatch,
-  ]);
+  }, [webcamRunning, gestureRecognizer, animate, detectedData, user, dispatch, stopCamera]);
 
   useEffect(() => {
     async function loadGestureRecognizer() {
@@ -230,38 +280,80 @@ const Detect = () => {
       <div className="signlang_detection-container">
         {accessToken ? (
           <>
-            <div style={{ position: "relative" }}>
+            <div className="signlang_camera-container">
               <Webcam
                 audio={false}
                 ref={webcamRef}
-                // screenshotFormat="image/jpeg"
                 className="signlang_webcam"
+                mirrored={true}
+                videoConstraints={{
+                  width: 640,
+                  height: 480,
+                  facingMode: "user"
+                }}
               />
 
               <canvas ref={canvasRef} className="signlang_canvas" />
 
-              <div className="signlang_data-container">
-                <button onClick={enableCam}>
-                  {webcamRunning ? "Stop" : "Start"}
+              <div className="signlang_controls">
+                <button 
+                  className="control-button"
+                  onClick={enableCam}
+                  title={webcamRunning ? "Detener detección" : "Iniciar detección"}
+                >
+                  <i className={`fas ${webcamRunning ? 'fa-stop-circle' : 'fa-play-circle'}`}></i>
+                  {webcamRunning ? "Detener" : "Iniciar"}
                 </button>
 
-                <div className="signlang_data">
-                  <p className="gesture_output">{gestureOutput}</p>
+                <button 
+                  className="control-button practice"
+                  onClick={() => setCurrentImage(SignImageData[Math.floor(Math.random() * SignImageData.length)])}
+                  disabled={!webcamRunning}
+                  title="Cambiar seña manualmente"
+                >
+                  <i className="fas fa-sync-alt"></i>
+                  Cambiar Seña
+                </button>
 
-                  {progress ? <ProgressBar progress={progress} /> : null}
+                <button 
+                  className={`control-button ${autoChangeImage ? 'active' : ''}`}
+                  onClick={() => setAutoChangeImage(!autoChangeImage)}
+                  disabled={!webcamRunning}
+                  title={autoChangeImage ? "Desactivar cambio automático" : "Activar cambio automático"}
+                >
+                  <i className={`fas ${autoChangeImage ? 'fa-clock' : 'fa-clock'}`}></i>
+                  {autoChangeImage ? "Auto: ON" : "Auto: OFF"}
+                </button>
+              </div>
+
+              <div className="signlang_data-container">
+                <div className="signlang_data">
+                  <div className="detection-info">
+                    <p className="gesture_output">
+                      {gestureOutput || (webcamRunning ? "Esperando..." : "Sin detección")}
+                    </p>
+                    {progress ? (
+                      <ProgressBar progress={progress} />
+                    ) : (
+                      <div className="empty-progress">
+                        <i className="fas fa-hand-paper"></i>
+                        <span>{webcamRunning ? "Muestra una seña" : "Inicia la detección"}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="signlang_imagelist-container">
-              <h2 className="gradient__text">Image</h2>
+              <h2 className="gradient__text">Practica la Seña</h2>
 
               <div className="signlang_image-div">
                 {currentImage ? (
                   <img src={currentImage.url} alt={`img ${currentImage.id}`} />
                 ) : (
                   <h3 className="gradient__text">
-                    Click on the Start Button <br /> to practice with Images
+                    ¡Haz clic en Empezar <br /> para practicar con imágenes!
                   </h3>
                 )}
               </div>
@@ -271,10 +363,10 @@ const Detect = () => {
         (
           <div className="signlang_detection_notLoggedIn">
 
-             <h1 className="gradient__text">Please Login !</h1>
+             <h1 className="gradient__text">¡Inicia Sesión!</h1>
              <img src={DisplayImg} alt="diplay-img"/>
              <p>
-              We Save Your Detection Data to show your progress and learning in dashboard, So please Login to Test this Detection Feature.
+              Guardamos los datos de tu práctica para mostrarte tu progreso en el panel de control. <br/> ¡Inicia sesión para probar esta función!
              </p>
           </div>
         )}
