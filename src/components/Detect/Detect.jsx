@@ -130,6 +130,14 @@ const Detect = () => {
     predictWebcam();
   }, [predictWebcam]);
 
+  const stopCamera = useCallback(() => {
+    const stream = webcamRef.current?.video?.srcObject;
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      webcamRef.current.video.srcObject = null;
+    }
+  }, []);
+
   const enableCam = useCallback(() => {
     if (!gestureRecognizer) {
       alert("Por favor, espera a que el reconocedor de gestos se cargue.");
@@ -146,6 +154,13 @@ const Detect = () => {
       setWebcamRunning(false);
       cancelAnimationFrame(requestRef.current);
       setCurrentImage(null);
+      stopCamera();
+      
+      // Limpiar el canvas
+      if (canvasRef.current) {
+        const canvasCtx = canvasRef.current.getContext("2d");
+        canvasCtx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      }
 
       const endTime = new Date();
 
@@ -214,11 +229,29 @@ const Detect = () => {
         setDetectedData([]);
       }
     } else {
-      setWebcamRunning(true);
-      startTime = new Date();
-      requestRef.current = requestAnimationFrame(animate);
+      // Iniciar la cámara
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          webcamRef.current.video.srcObject = stream;
+          setWebcamRunning(true);
+          startTime = new Date();
+          requestRef.current = requestAnimationFrame(animate);
+          
+          // Configurar el canvas con las dimensiones correctas
+          const videoElement = webcamRef.current.video;
+          videoElement.onloadedmetadata = () => {
+            const width = videoElement.videoWidth;
+            const height = videoElement.videoHeight;
+            canvasRef.current.width = width;
+            canvasRef.current.height = height;
+          };
+        })
+        .catch(err => {
+          alert("No se pudo acceder a la cámara. Por favor, asegúrate de que tienes una cámara conectada y que has dado los permisos necesarios.");
+          console.error(err);
+        });
     }
-  }, [webcamRunning, gestureRecognizer, animate, detectedData, user, dispatch]);
+  }, [webcamRunning, gestureRecognizer, animate, detectedData, user, dispatch, stopCamera]);
 
   useEffect(() => {
     async function loadGestureRecognizer() {
@@ -243,12 +276,17 @@ const Detect = () => {
       <div className="signlang_detection-container">
         {accessToken ? (
           <>
-            <div style={{ position: "relative" }}>
+            <div className="signlang_camera-container">
               <Webcam
                 audio={false}
                 ref={webcamRef}
-                // screenshotFormat="image/jpeg"
                 className="signlang_webcam"
+                mirrored={true}
+                videoConstraints={{
+                  width: 640,
+                  height: 480,
+                  facingMode: "user"
+                }}
               />
 
               <canvas ref={canvasRef} className="signlang_canvas" />
