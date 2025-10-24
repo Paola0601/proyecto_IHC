@@ -19,7 +19,7 @@ const Dashboard = () => {
  
   const navigate = useNavigate();
 
-  const { loading: authLoader ,accessToken } = useSelector((state) => state.auth);
+  const { loading: authLoader, accessToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!authLoader && !accessToken) {
@@ -60,11 +60,82 @@ const Dashboard = () => {
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
+  // Calcular total de señas practicadas
+  const totalSignsPracticed = newData.reduce((acc, sign) => acc + sign.count, 0);
+
+  // Sistema de ligas
+  const leagues = [
+    { name: "Principiante", min: 0, max: 19, icon: "🌱", color: "#FFE5CC" },
+    { name: "Aprendiz", min: 20, max: 49, icon: "⭐", color: "#FFDAB9" },
+    { name: "Experto", min: 50, max: 99, icon: "🏆", color: "#FFB84D" },
+    { name: "Maestro", min: 100, max: 199, icon: "👑", color: "#FF8C42" },
+    { name: "Campeón", min: 200, max: Infinity, icon: "💎", color: "#FF6B35" }
+  ];
+
+  const currentLeague = leagues.find(
+    league => totalSignsPracticed >= league.min && totalSignsPracticed <= league.max
+  );
+
+  const nextLeague = leagues.find(league => league.min > totalSignsPracticed);
+  const progressToNextLeague = nextLeague 
+    ? ((totalSignsPracticed - currentLeague.min) / (nextLeague.min - currentLeague.min)) * 100
+    : 100;
+
   return (
     <div className="signlang_dashboard-container">
       {!(loading || authLoader) ? (
         signDataList.length > 0 ? (
           <>
+            {/* Sistema de Ligas */}
+            <div className="league-system">
+              <div className="current-league-card">
+                <div className="league-icon" style={{ background: currentLeague.color }}>
+                  <span className="icon-large">{currentLeague.icon}</span>
+                </div>
+                <div className="league-info">
+                  <h3>Tu Liga Actual</h3>
+                  <h2 className="gradient__text">{currentLeague.name}</h2>
+                  <p className="total-signs">{totalSignsPracticed} señas practicadas</p>
+                </div>
+              </div>
+
+              {nextLeague && (
+                <div className="progress-section">
+                  <div className="progress-header">
+                    <span>Progreso a {nextLeague.name} {nextLeague.icon}</span>
+                    <span className="progress-count">
+                      {totalSignsPracticed}/{nextLeague.min}
+                    </span>
+                  </div>
+                  <div className="progress-bar-container">
+                    <div 
+                      className="progress-bar-fill" 
+                      style={{ width: `${progressToNextLeague}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="all-leagues">
+                <h3>Todas las Ligas</h3>
+                <div className="leagues-grid">
+                  {leagues.map((league, index) => (
+                    <div 
+                      key={index}
+                      className={`league-badge ${totalSignsPracticed >= league.min ? 'unlocked' : 'locked'}`}
+                      style={{ borderColor: league.color }}
+                    >
+                      <span className="badge-icon">{league.icon}</span>
+                      <span className="badge-name">{league.name}</span>
+                      <span className="badge-requirement">
+                        {league.min === 0 ? '0+' : `${league.min}+`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <div className="signlang_header-data">
               <ChartComp signDataList={signDataList} />
 
@@ -123,12 +194,73 @@ const Dashboard = () => {
             </div>
           </>
         ) : (
-          <div className="signlang__nodata-cont">
-            <img src={NoData} alt="no-data" />
-            <h3 className="gradient__text">
-              No Data to Display please go back to Detect to Mark Your Learning
-            </h3>
-          </div>
+          <>
+            {/* Sistema de Ligas - Estado Inicial */}
+            <div className="league-system">
+              <div className="current-league-card">
+                <div className="league-icon" style={{ background: "white" }}>
+                  <span className="icon-large">🌱</span>
+                </div>
+                <div className="league-info">
+                  <h3>Tu Liga Actual</h3>
+                  <h2 className="gradient__text">Principiante</h2>
+                  <p className="total-signs">0 señas practicadas</p>
+                </div>
+              </div>
+
+              <div className="progress-section">
+                <div className="progress-header">
+                  <span>Progreso a Aprendiz ⭐</span>
+                  <span className="progress-count">0/20</span>
+                </div>
+                <div className="progress-bar-container">
+                  <div className="progress-bar-fill" style={{ width: "0%" }} />
+                </div>
+                <p style={{ marginTop: "1rem", color: "#666", textAlign: "center" }}>
+                  ¡Practica 20 señas para subir de liga!
+                </p>
+              </div>
+
+              <div className="all-leagues">
+                <h3>Desbloquea Todas las Ligas</h3>
+                <div className="leagues-grid">
+                  <div className="league-badge unlocked" style={{ borderColor: "#FFE5CC" }}>
+                    <span className="badge-icon">🌱</span>
+                    <span className="badge-name">Principiante</span>
+                    <span className="badge-requirement">0+</span>
+                  </div>
+                  <div className="league-badge locked" style={{ borderColor: "#FFDAB9" }}>
+                    <span className="badge-icon">⭐</span>
+                    <span className="badge-name">Aprendiz</span>
+                    <span className="badge-requirement">20+</span>
+                  </div>
+                  <div className="league-badge locked" style={{ borderColor: "#FFB84D" }}>
+                    <span className="badge-icon">🏆</span>
+                    <span className="badge-name">Experto</span>
+                    <span className="badge-requirement">50+</span>
+                  </div>
+                  <div className="league-badge locked" style={{ borderColor: "#FF8C42" }}>
+                    <span className="badge-icon">👑</span>
+                    <span className="badge-name">Maestro</span>
+                    <span className="badge-requirement">100+</span>
+                  </div>
+                  <div className="league-badge locked" style={{ borderColor: "#FF6B35" }}>
+                    <span className="badge-icon">💎</span>
+                    <span className="badge-name">Campeón</span>
+                    <span className="badge-requirement">200+</span>
+                  </div>
+                </div>
+              </div>
+              <div className="button-container">
+                <button 
+                  className="start-practice-btn" 
+                  onClick={() => navigate("/detect")}
+                >
+                  Ir a Practicar
+                </button>
+              </div>
+            </div>
+          </>
         )
       ) : (
         <Spinner />

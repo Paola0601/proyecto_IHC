@@ -72,7 +72,10 @@ const Navbar = ({ notifyMsg }) => {
         <div className="signlang_auth-data">
           {accessToken ? (
             <>
-              <img src={user?.photoURL} alt="user-icon" />
+              <div className="user-info">
+                <img src={user?.photoURL} alt="user-icon" />
+                <span className="user-name">{user?.name}</span>
+              </div>
               <button type="button" onClick={handleLogout}>
                 SALIR
               </button>
@@ -124,7 +127,10 @@ const Navbar = ({ notifyMsg }) => {
             <div className="signlang__navbar-menu_container-links-authdata">
               {accessToken ? (
                 <>
-                  <img src={user?.photoURL} alt="user-icon" />
+                  <div className="user-info">
+                    <img src={user?.photoURL} alt="user-icon" />
+                    <span className="user-name">{user?.name}</span>
+                  </div>
                   <button type="button" onClick={handleLogout}>
                     SALIR
                   </button>

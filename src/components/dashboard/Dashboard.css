@@ -2,6 +2,148 @@
   font-family: var(--font-family);
 }
 
+/* Sistema de Ligas */
+.league-system {
+  margin: 2rem;
+  padding: 2rem;
+  background: #FFF8F0;
+  border-radius: 20px;
+  border: 2px solid #FFE5CC;
+}
+
+.current-league-card {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: #FFFFFF;
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border: 2px solid #FF8C42;
+}
+
+.league-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+}
+
+.icon-large {
+  font-size: 3rem;
+}
+
+.league-info h3 {
+  color: #666666;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.league-info h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.total-signs {
+  color: #FF8C42;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.progress-section {
+  background: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border: 2px solid #FFE5CC;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: #333333;
+  font-weight: 600;
+}
+
+.progress-count {
+  color: #FF8C42;
+  font-size: 1.1rem;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 30px;
+  background: #F5F5F5;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid #E0E0E0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #FF8C42;
+  transition: width 0.5s ease;
+  border-radius: 15px;
+}
+
+.all-leagues h3 {
+  color: #333333;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.leagues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.league-badge {
+  background: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: 15px;
+  border: 3px solid #E0E0E0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.league-badge.unlocked {
+  border-width: 3px;
+  transform: scale(1.02);
+}
+
+.league-badge.locked {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.badge-icon {
+  font-size: 2.5rem;
+}
+
+.badge-name {
+  color: #333333;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.badge-requirement {
+  color: #666666;
+  font-size: 0.9rem;
+}
+
+
 .signlang_header-data {
   display: flex;
   justify-content: space-around;
@@ -142,28 +284,86 @@ td {
 }
 
 
-.signlang__nodata-cont{
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.start-practice-btn {
+  background: #FF8C42;
+  color: #fff;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: 2px solid #FF8C42;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.start-practice-btn:hover {
+  background: #FF6B35;
+  border-color: #FF6B35;
+  transform: scale(1.05);
+}
+
+.button-container {
+  width: 100%;
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.signlang__nodata-cont img{
-  width: 500px;
-  height: 500px;
-}
-
-.signlang__nodata-cont h3{
-  font-size: 20px;
-  text-transform: capitalize;
-  width: 25%;
-  text-align: justify;
-  line-height: 2;
+  justify-content: center;
+  padding-top: 1em;
 }
 
 @media screen and (max-width: 1050px) {
   .signlang_header-data {
     flex-direction: column;
+  }
+
+  .league-system {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .current-league-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .league-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .icon-large {
+    font-size: 2.5rem;
+  }
+
+  .league-info h2 {
+    font-size: 2rem;
+  }
+
+  .leagues-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .empty-state-message {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .empty-state-message img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .empty-state-message h2 {
+    font-size: 1.6rem;
+  }
+
+  .empty-state-message p {
+    font-size: 1rem;
   }
 
   .signlang_dashboard-midsection {
@@ -190,15 +390,6 @@ td {
     width: 60%;
   }
 
-  .signlang__nodata-cont{
-    flex-direction: column;
-  }
-
-  .signlang__nodata-cont h3{
-    width: 50%;
-    margin-bottom: 10rem;
-  }
-
   
 }
 
@@ -207,6 +398,38 @@ td {
 @media screen and (max-width: 500px) {
   .signlang_toprank-box {
     width: 300px;
+  }
+
+  .league-system {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+
+  .current-league-card {
+    padding: 1.5rem;
+  }
+
+  .league-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .icon-large {
+    font-size: 2rem;
+  }
+
+  .league-info h2 {
+    font-size: 1.8rem;
+  }
+
+  .leagues-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
   }
 
   .signlang_sign-table{
@@ -228,12 +451,18 @@ td {
     margin-top: 5rem;
   }
 
-  .signlang__nodata-cont img{
-    width: 300px;
-    height: 300px;
+  .empty-state-message img {
+    width: 120px;
+    height: 120px;
   }
 
-  .signlang__nodata-cont h3{
-    width: 90%;
+  .empty-state-message h2 {
+    font-size: 1.4rem;
+  }
+
+  .start-practice-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
   }
 }
