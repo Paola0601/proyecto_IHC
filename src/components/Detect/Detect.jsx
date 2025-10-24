@@ -41,9 +41,13 @@ const Detect = () => {
 
   const [currentImage, setCurrentImage] = useState(null);
 
+  // Manejo de imágenes de práctica
+  const [autoChangeImage, setAutoChangeImage] = useState(false);
+
   useEffect(() => {
     let intervalId;
-    if (webcamRunning) {
+    // Solo ejecutar el intervalo si la cámara está activa y el cambio automático está activado
+    if (webcamRunning && autoChangeImage) {
       intervalId = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * SignImageData.length);
         const randomImage = SignImageData[randomIndex];
@@ -51,7 +55,7 @@ const Detect = () => {
       }, 5000);
     }
     return () => clearInterval(intervalId);
-  }, [webcamRunning]);
+  }, [webcamRunning, autoChangeImage]);
 
   if (
     process.env.NODE_ENV === "development" ||
@@ -291,15 +295,52 @@ const Detect = () => {
 
               <canvas ref={canvasRef} className="signlang_canvas" />
 
-              <div className="signlang_data-container">
-                <button onClick={enableCam}>
-                  {webcamRunning ? "Detener" : "Empezar"}
+              <div className="signlang_controls">
+                <button 
+                  className="control-button"
+                  onClick={enableCam}
+                  title={webcamRunning ? "Detener detección" : "Iniciar detección"}
+                >
+                  <i className={`fas ${webcamRunning ? 'fa-stop-circle' : 'fa-play-circle'}`}></i>
+                  {webcamRunning ? "Detener" : "Iniciar"}
                 </button>
 
-                <div className="signlang_data">
-                  <p className="gesture_output">{gestureOutput}</p>
+                <button 
+                  className="control-button practice"
+                  onClick={() => setCurrentImage(SignImageData[Math.floor(Math.random() * SignImageData.length)])}
+                  disabled={!webcamRunning}
+                  title="Cambiar seña manualmente"
+                >
+                  <i className="fas fa-sync-alt"></i>
+                  Cambiar Seña
+                </button>
 
-                  {progress ? <ProgressBar progress={progress} /> : null}
+                <button 
+                  className={`control-button ${autoChangeImage ? 'active' : ''}`}
+                  onClick={() => setAutoChangeImage(!autoChangeImage)}
+                  disabled={!webcamRunning}
+                  title={autoChangeImage ? "Desactivar cambio automático" : "Activar cambio automático"}
+                >
+                  <i className={`fas ${autoChangeImage ? 'fa-clock' : 'fa-clock'}`}></i>
+                  {autoChangeImage ? "Auto: ON" : "Auto: OFF"}
+                </button>
+              </div>
+
+              <div className="signlang_data-container">
+                <div className="signlang_data">
+                  <div className="detection-info">
+                    <p className="gesture_output">
+                      {gestureOutput || (webcamRunning ? "Esperando..." : "Sin detección")}
+                    </p>
+                    {progress ? (
+                      <ProgressBar progress={progress} />
+                    ) : (
+                      <div className="empty-progress">
+                        <i className="fas fa-hand-paper"></i>
+                        <span>{webcamRunning ? "Muestra una seña" : "Inicia la detección"}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
