@@ -3,12 +3,19 @@
 :root {
   --font-family: 'Manrope', sans-serif;
 
-  --gradient-text: linear-gradient(89.97deg, #FF8C42 1.84%, #FF6B35 102.67%);
-  --gradient-bar: linear-gradient(103.22deg, #FF8C42 -13.86%, #FF6B35 99.55%);
+  /* Paleta mejorada - Azul Celeste y Amarillo Solar */
+  --color-primary-dark: #3B5F8C;    /* Azul profundo más vibrante */
+  --color-primary: #4B7BBF;         /* Azul celeste más vivo */
+  --color-primary-light: #92B4E9;   /* Azul claro más fresco */
+  --color-accent: #FFD167;         /* Amarillo solar más cálido */
+  --color-accent-light: #FFE6B3;   /* Amarillo pastel más suave */
+
+  --gradient-text: linear-gradient(89.97deg, #FFD167 1.84%, #FFE6B3 102.67%);
+  --gradient-bar: linear-gradient(103.22deg, #FFD167 -13.86%, #FFE6B3 99.55%);
   
   --color-bg: #FFFFFF;
-  --color-footer : #F5F5F5;
-  --color-blog: #FFF8F0;
-  --color-text: #333333;
-  --color-subtext: #FF8C42;
+  --color-footer : #46657F;
+  --color-blog: #FFFFFF;
+  --color-text: #46657F;
+  --color-subtext: #FFC657;
 }

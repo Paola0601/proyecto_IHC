@@ -61,64 +61,66 @@ const Detect = () => {
   }
 
   const predictWebcam = useCallback(() => {
+    if (!webcamRef.current?.video?.readyState === 4) {
+      return;
+    }
+
     if (runningMode === "IMAGE") {
       setRunningMode("VIDEO");
       gestureRecognizer.setOptions({ runningMode: "VIDEO" });
     }
 
+    const video = webcamRef.current.video;
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
+
+    // Asegurarse de que el video tenga dimensiones válidas
+    if (videoWidth === 0 || videoHeight === 0) {
+      return;
+    }
+
     let nowInMs = Date.now();
-    const results = gestureRecognizer.recognizeForVideo(
-      webcamRef.current.video,
-      nowInMs
-    );
+    const results = gestureRecognizer.recognizeForVideo(video, nowInMs);
 
     const canvasCtx = canvasRef.current.getContext("2d");
     canvasCtx.save();
-    canvasCtx.clearRect(
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
-    );
+    canvasCtx.clearRect(0, 0, videoWidth, videoHeight);
 
-    const videoWidth = webcamRef.current.video.videoWidth;
-    const videoHeight = webcamRef.current.video.videoHeight;
-
-    // Set video width
-    webcamRef.current.video.width = videoWidth;
-    webcamRef.current.video.height = videoHeight;
-
-    // Set canvas height and width
-    canvasRef.current.width = videoWidth;
-    canvasRef.current.height = videoHeight;
+    // Asegurarse de que el canvas tenga las mismas dimensiones que el video
+    if (canvasRef.current.width !== videoWidth || canvasRef.current.height !== videoHeight) {
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
+    }
 
     // Draw the results on the canvas, if any.
     if (results.landmarks) {
       for (const landmarks of results.landmarks) {
         drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-          color: "#00FF00",
+          color: "#FFC657",
           lineWidth: 5,
         });
 
-        drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 2 });
+        drawLandmarks(canvasCtx, landmarks, { color: "#46657F", lineWidth: 2 });
       }
     }
-    if (results.gestures.length > 0) {
-      setDetectedData((prevData) => [
-        ...prevData,
-        {
-          SignDetected: results.gestures[0][0].categoryName,
-        },
-      ]);
+      if (results.gestures && results.gestures.length > 0 && 
+          results.gestures[0] && results.gestures[0][0]) {
+        const gesture = results.gestures[0][0];
+        if (gesture.categoryName) {
+          setDetectedData((prevData) => [
+            ...prevData,
+            {
+              SignDetected: gesture.categoryName,
+            },
+          ]);
 
-      setGestureOutput(results.gestures[0][0].categoryName);
-      setProgress(Math.round(parseFloat(results.gestures[0][0].score) * 100));
-    } else {
-      setGestureOutput("");
-      setProgress("");
-    }
-
-    if (webcamRunning === true) {
+          setGestureOutput(gesture.categoryName);
+          setProgress(Math.round(parseFloat(gesture.score) * 100));
+        }
+      } else {
+        setGestureOutput("");
+        setProgress("");
+      }    if (webcamRunning === true) {
       requestRef.current = requestAnimationFrame(predictWebcam);
     }
   }, [webcamRunning, runningMode, gestureRecognizer, setGestureOutput]);
@@ -130,7 +132,13 @@ const Detect = () => {
 
   const enableCam = useCallback(() => {
     if (!gestureRecognizer) {
-      alert("Please wait for gestureRecognizer to load");
+      alert("Por favor, espera a que el reconocedor de gestos se cargue.");
+      return;
+    }
+
+    // Asegúrate de que la webcam esté disponible
+    if (!webcamRef.current) {
+      alert("La webcam no está disponible.");
       return;
     }
 
@@ -148,64 +156,69 @@ const Detect = () => {
 
       // Remove empty values
       const nonEmptyData = detectedData.filter(
-        (data) => data.SignDetected !== "" && data.DetectedScore !== ""
+        (data) => data && data.SignDetected && data.SignDetected !== ""
       );
+
+      // Verificar si hay datos antes de procesar
+      if (nonEmptyData.length === 0) {
+        return;
+      }
 
       //to filter continous same signs in an array
       const resultArray = [];
       let current = nonEmptyData[0];
 
       for (let i = 1; i < nonEmptyData.length; i++) {
-        if (nonEmptyData[i].SignDetected !== current.SignDetected) {
+        if (nonEmptyData[i] && current && 
+            nonEmptyData[i].SignDetected !== current.SignDetected) {
           resultArray.push(current);
           current = nonEmptyData[i];
         }
       }
 
-      resultArray.push(current);
+      if (current) {
+        resultArray.push(current);
+      }
 
       //calculate count for each repeated sign
       const countMap = new Map();
 
-      for (const item of resultArray) {
-        const count = countMap.get(item.SignDetected) || 0;
-        countMap.set(item.SignDetected, count + 1);
+      // Verificar si hay resultados antes de procesarlos
+      if (resultArray.length > 0) {
+        for (const item of resultArray) {
+          if (item && item.SignDetected) {
+            const count = countMap.get(item.SignDetected) || 0;
+            countMap.set(item.SignDetected, count + 1);
+          }
+        }
+
+        const sortedArray = Array.from(countMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const outputArray = sortedArray
+          .slice(0, 5)
+          .map(([sign, count]) => ({ SignDetected: sign, count }));
+
+        // object to send to action creator
+        const data = {
+          signsPerformed: outputArray,
+          id: uuidv4(),
+          username: user?.name,
+          userId: user?.userId,
+          createdAt: String(endTime),
+          secondsSpent: Number(timeElapsed),
+        };
+
+        dispatch(addSignData(data));
+        setDetectedData([]);
       }
-
-      const sortedArray = Array.from(countMap.entries()).sort(
-        (a, b) => b[1] - a[1]
-      );
-
-      const outputArray = sortedArray
-        .slice(0, 5)
-        .map(([sign, count]) => ({ SignDetected: sign, count }));
-
-      // object to send to action creator
-      const data = {
-        signsPerformed: outputArray,
-        id: uuidv4(),
-        username: user?.name,
-        userId: user?.userId,
-        createdAt: String(endTime),
-        secondsSpent: Number(timeElapsed),
-      };
-
-      dispatch(addSignData(data));
-      setDetectedData([]);
     } else {
       setWebcamRunning(true);
       startTime = new Date();
       requestRef.current = requestAnimationFrame(animate);
     }
-  }, [
-    webcamRunning,
-    gestureRecognizer,
-    animate,
-    detectedData,
-    user?.name,
-    user?.userId,
-    dispatch,
-  ]);
+  }, [webcamRunning, gestureRecognizer, animate, detectedData, user, dispatch]);
 
   useEffect(() => {
     async function loadGestureRecognizer() {
@@ -242,7 +255,7 @@ const Detect = () => {
 
               <div className="signlang_data-container">
                 <button onClick={enableCam}>
-                  {webcamRunning ? "Stop" : "Start"}
+                  {webcamRunning ? "Detener" : "Empezar"}
                 </button>
 
                 <div className="signlang_data">
@@ -254,14 +267,14 @@ const Detect = () => {
             </div>
 
             <div className="signlang_imagelist-container">
-              <h2 className="gradient__text">Image</h2>
+              <h2 className="gradient__text">Practica la Seña</h2>
 
               <div className="signlang_image-div">
                 {currentImage ? (
                   <img src={currentImage.url} alt={`img ${currentImage.id}`} />
                 ) : (
                   <h3 className="gradient__text">
-                    Click on the Start Button <br /> to practice with Images
+                    ¡Haz clic en Empezar <br /> para practicar con imágenes!
                   </h3>
                 )}
               </div>
@@ -271,10 +284,10 @@ const Detect = () => {
         (
           <div className="signlang_detection_notLoggedIn">
 
-             <h1 className="gradient__text">Please Login !</h1>
+             <h1 className="gradient__text">¡Inicia Sesión!</h1>
              <img src={DisplayImg} alt="diplay-img"/>
              <p>
-              We Save Your Detection Data to show your progress and learning in dashboard, So please Login to Test this Detection Feature.
+              Guardamos los datos de tu práctica para mostrarte tu progreso en el panel de control. <br/> ¡Inicia sesión para probar esta función!
              </p>
           </div>
         )}

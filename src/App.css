@@ -6,7 +6,7 @@
 }
 
 body {
-  background: var(--color-bg);
+  background: #FFFFFF;
 }
 
 html::-webkit-scrollbar {
@@ -14,12 +14,12 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-thumb {
-  background-color: var(--color-subtext);
+  background: var(--gradient-bar);
   border-radius: 70vw;
 }
 
 html::-webkit-scrollbar-track {
-  height: 20px;
+  background: #E9ECEF;
 }
 
 
@@ -30,7 +30,7 @@ a {
 
 
 .gradient__bg {
-  background: #FFFFFF;
+  background: var(--color-bg);
 }
 
 .gradient__text {
