@@ -65,7 +65,7 @@ const Detect = () => {
   }
 
   const predictWebcam = useCallback(() => {
-    if (!webcamRef.current?.video?.readyState === 4) {
+    if (!webcamRef.current || !webcamRef.current.video || webcamRef.current.video.readyState !== 4) {
       return;
     }
 
