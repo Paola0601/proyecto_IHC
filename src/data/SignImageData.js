@@ -27,8 +27,8 @@ const XImg = "/signs/signoX.png";
 const YImg = "/signs/signoY.png";
 const ZImg = "/signs/signoZ.png";
 
-// 🇵🇪 Alfabeto del Lenguaje de Señas Peruano (LSP)
-// Solo incluimos las letras A-Z + Ñ que están disponibles en public/signs/
+// 🇺🇸 Alfabeto compatible con el modelo ASL americano (A-Z, sin Ñ)
+// Solo incluimos las letras que el modelo actual puede reconocer
 export const SignImageData = [
   {
     name: "A",
@@ -71,10 +71,6 @@ export const SignImageData = [
     url: JImg,
   },
   {
-    name: "K",
-    url: KImg,
-  },
-  {
     name: "L",
     url: LImg,
   },
@@ -87,16 +83,8 @@ export const SignImageData = [
     url: NImg,
   },
   {
-    name: "Ñ",
-    url: NnImg,
-  },
-  {
     name: "O",
     url: OImg,
-  },
-  {
-    name: "P",
-    url: PImg,
   },
   {
     name: "Q",
@@ -115,10 +103,6 @@ export const SignImageData = [
     url: TImg,
   },
   {
-    name: "U",
-    url: UImg,
-  },
-  {
     name: "V",
     url: VImg,
   },
@@ -133,9 +117,5 @@ export const SignImageData = [
   {
     name: "Y",
     url: YImg,
-  },
-  {
-    name: "Z",
-    url: ZImg,
   },
 ];

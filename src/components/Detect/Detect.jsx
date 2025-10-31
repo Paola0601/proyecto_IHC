@@ -42,27 +42,24 @@ const Detect = () => {
   const [currentImage, setCurrentImage] = useState(null);
 
   // Manejo de imágenes de práctica
-  const [autoChangeImage, setAutoChangeImage] = useState(false);
+  const [practiceMode, setPracticeMode] = useState("validation"); // "validation" o "manual"
+  
+  // Estado para validar si el usuario hizo la seña correcta
+  const [correctGestureCount, setCorrectGestureCount] = useState(0);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const REQUIRED_CORRECT_COUNT = 5; // Número de detecciones correctas consecutivas necesarias
 
   useEffect(() => {
-    let intervalId;
-    // Solo ejecutar el intervalo si la cámara está activa y el cambio automático está activado
-    if (webcamRunning && autoChangeImage) {
-      intervalId = setInterval(() => {
-        const randomIndex = Math.floor(Math.random() * SignImageData.length);
-        const randomImage = SignImageData[randomIndex];
-        setCurrentImage(randomImage);
-      }, 5000);
-    }
-    return () => clearInterval(intervalId);
-  }, [webcamRunning, autoChangeImage]);
+    // Eliminar el auto-change, ya no es necesario
+  }, [webcamRunning]);
 
-  if (
-    process.env.NODE_ENV === "development" ||
-    process.env.NODE_ENV === "production"
-  ) {
-    console.log = function () {};
-  }
+  // COMENTADO TEMPORALMENTE PARA DEBUGGING
+  // if (
+  //   process.env.NODE_ENV === "development" ||
+  //   process.env.NODE_ENV === "production"
+  // ) {
+  //   console.log = function () {};
+  // }
 
   const predictWebcam = useCallback(() => {
     if (!webcamRef.current || !webcamRef.current.video || webcamRef.current.video.readyState !== 4) {
@@ -120,6 +117,49 @@ const Detect = () => {
 
           setGestureOutput(gesture.categoryName);
           setProgress(Math.round(parseFloat(gesture.score) * 100));
+          
+          console.log(`🔍 Detección: "${gesture.categoryName}" con ${(gesture.score * 100).toFixed(1)}% confianza`);
+          
+          // Verificar si la seña detectada coincide con la imagen actual (solo en modo validación)
+          if (practiceMode === "validation" && currentImage) {
+            console.log(`📌 Modo: ${practiceMode}, Imagen actual: "${currentImage.name}"`);
+            
+            if (gesture.score > 0.6) {  // Reducido de 0.7 a 0.6 (60%)
+              if (gesture.categoryName === currentImage.name) {
+                // Seña correcta detectada
+                console.log(`✅ ¡CORRECTO! "${gesture.categoryName}" coincide con "${currentImage.name}"`);
+                console.log(`📊 Contador actual: ${correctGestureCount}, incrementando...`);
+                
+                const newCount = correctGestureCount + 1;
+                console.log(`📊 Nuevo progreso: ${newCount}/${REQUIRED_CORRECT_COUNT}`);
+                
+                setCorrectGestureCount(newCount);
+                
+                // Si alcanza el número requerido, cambiar imagen
+                if (newCount >= REQUIRED_CORRECT_COUNT) {
+                  console.log(`🎉 ¡COMPLETADO! Cambiando a nueva seña...`);
+                  setShowSuccess(true);
+                  setTimeout(() => {
+                    const randomIndex = Math.floor(Math.random() * SignImageData.length);
+                    const newImage = SignImageData[randomIndex];
+                    console.log(`🔄 Nueva seña: ${newImage.name}`);
+                    setCurrentImage(newImage);
+                    setCorrectGestureCount(0);
+                    setShowSuccess(false);
+                  }, 1000);
+                }
+              } else {
+                // Seña incorrecta
+                console.log(`❌ Incorrecto: esperaba "${currentImage.name}", detectó "${gesture.categoryName}"`);
+                if (correctGestureCount > 0) {
+                  console.log(`🔄 Reseteando contador de ${correctGestureCount} a 0`);
+                  setCorrectGestureCount(0);
+                }
+              }
+            } else {
+              console.log(`⚠️ Confianza baja: ${(gesture.score * 100).toFixed(1)}% (necesita >60%)`);
+            }
+          }
         }
       } else {
         setGestureOutput("");
@@ -305,23 +345,23 @@ const Detect = () => {
                 </button>
 
                 <button 
-                  className="control-button practice"
-                  onClick={() => setCurrentImage(SignImageData[Math.floor(Math.random() * SignImageData.length)])}
+                  className={`control-button ${practiceMode === 'validation' ? 'active' : ''}`}
+                  onClick={() => {
+                    if (webcamRunning) {
+                      if (practiceMode === "validation") {
+                        setPracticeMode("manual");
+                        setCorrectGestureCount(0);
+                      } else {
+                        setPracticeMode("validation");
+                        setCorrectGestureCount(0);
+                      }
+                    }
+                  }}
                   disabled={!webcamRunning}
-                  title="Cambiar seña manualmente"
+                  title={practiceMode === "validation" ? "Cambiar a modo manual (click para cambiar)" : "Cambiar a modo validación (detecta la seña)"}
                 >
-                  <i className="fas fa-sync-alt"></i>
-                  Cambiar Seña
-                </button>
-
-                <button 
-                  className={`control-button ${autoChangeImage ? 'active' : ''}`}
-                  onClick={() => setAutoChangeImage(!autoChangeImage)}
-                  disabled={!webcamRunning}
-                  title={autoChangeImage ? "Desactivar cambio automático" : "Activar cambio automático"}
-                >
-                  <i className={`fas ${autoChangeImage ? 'fa-clock' : 'fa-clock'}`}></i>
-                  {autoChangeImage ? "Auto: ON" : "Auto: OFF"}
+                  <i className={`fas ${practiceMode === "validation" ? 'fa-check-double' : 'fa-hand-pointer'}`}></i>
+                  {practiceMode === "validation" ? "Modo: Validar" : "Modo: Manual"}
                 </button>
               </div>
 
@@ -350,20 +390,48 @@ const Detect = () => {
               <div 
                 className="signlang_image-div"
                 onClick={() => {
-                  if (webcamRunning) {
+                  if (webcamRunning && practiceMode === "manual") {
                     const randomIndex = Math.floor(Math.random() * SignImageData.length);
                     setCurrentImage(SignImageData[randomIndex]);
+                    setCorrectGestureCount(0);
                   }
                 }}
-                style={{ cursor: webcamRunning ? 'pointer' : 'default' }}
+                style={{ cursor: webcamRunning && practiceMode === "manual" ? 'pointer' : 'default' }}
               >
                 {currentImage ? (
                   <>
-                    <img src={currentImage.url} alt={`Seña ${currentImage.name}`} />
+                    <div className={`image-container ${showSuccess ? 'success-animation' : ''}`}>
+                      <img src={currentImage.url} alt={`Seña ${currentImage.name}`} />
+                      {showSuccess && (
+                        <div className="success-overlay">
+                          <i className="fas fa-check-circle"></i>
+                          <span>¡Correcto!</span>
+                        </div>
+                      )}
+                    </div>
                     <div className="sign-label">
                       <span className="sign-letter">{currentImage.name}</span>
                     </div>
-                    <p className="click-hint">Click para cambiar</p>
+                    <div className="practice-progress">
+                      {practiceMode === "validation" && (
+                        <div className="progress-dots">
+                          {[...Array(REQUIRED_CORRECT_COUNT)].map((_, i) => (
+                            <div 
+                              key={i} 
+                              className={`dot ${i < correctGestureCount ? 'active' : ''}`}
+                            />
+                          ))}
+                        </div>
+                      )}
+                      <p className="practice-hint">
+                        {practiceMode === "validation" && correctGestureCount > 0 
+                          ? `✓ ${correctGestureCount}/${REQUIRED_CORRECT_COUNT} - ¡Sigue así!` 
+                          : practiceMode === "validation"
+                            ? "Haz la seña mostrada arriba"
+                            : "Click en la imagen para cambiar"
+                        }
+                      </p>
+                    </div>
                   </>
                 ) : (
                   <div className="practice-placeholder">
