@@ -1,45 +1,34 @@
-import AImg from "../assests/SignImages/A.png";
-import BImg from "../assests/SignImages/B.png";
-import CImg from "../assests/SignImages/C.png";
-import DImg from "../assests/SignImages/D.png";
-import EImg from "../assests/SignImages/E.png";
-import FImg from "../assests/SignImages/F.png";
-import GImg from "../assests/SignImages/G.png";
-import HImg from "../assests/SignImages/H.png";
-import IImg from "../assests/SignImages/I.png";
-import JImg from "../assests/SignImages/J.png";
-import KImg from "../assests/SignImages/K.png";
-import LImg from "../assests/SignImages/L.png";
-import MImg from "../assests/SignImages/M.png";
-import NImg from "../assests/SignImages/N.png";
-import OImg from "../assests/SignImages/O.png";
-import PImg from "../assests/SignImages/P.png";
-import QImg from "../assests/SignImages/Q.png";
-import RImg from "../assests/SignImages/R.png";
-import SImg from "../assests/SignImages/S.png";
-import TImg from "../assests/SignImages/T.png";
-import UImg from "../assests/SignImages/U.png";
-import VImg from "../assests/SignImages/V.png";
-import WImg from "../assests/SignImages/W.png";
-import XImg from "../assests/SignImages/X.png";
-import YImg from "../assests/SignImages/Y.png";
-import ByeImg from "../assests/SignImages/BYE.png";
-import HelloImg from "../assests/SignImages/HELLO.png";
-import YesImg from "../assests/SignImages/YES.png";
-import NoImg from "../assests/SignImages/NO.png";
-import PleaseImg from "../assests/SignImages/PLEASE.png";
-import MeImg from "../assests/SignImages/ME.png";
-import DeafImg from "../assests/SignImages/DEAF.png";
-import TellImg from "../assests/SignImages/TELL.png";
-import ILoveYouImg from "../assests/SignImages/ILOVEYOU.png";
-import MeetImg from "../assests/SignImages/MEET.png";
-import ThankYouImg from "../assests/SignImages/THANKYOU.png";
-import LearnImg from "../assests/SignImages/LEARN.png";
-import PenImg from "../assests/SignImages/PEN.png";
-import NameImg from "../assests/SignImages/NAME.png";
-import OkImg from "../assests/SignImages/OK.png";
-import NotOkImg from "../assests/SignImages/NOTOK.png";
+// Imágenes de Lenguaje de Señas Peruano (LSP) desde public/signs/
+const AImg = "/signs/signoA.png";
+const BImg = "/signs/signoB.png";
+const CImg = "/signs/signoC.png";
+const DImg = "/signs/signoD.png";
+const EImg = "/signs/signoE.png";
+const FImg = "/signs/signoF.png";
+const GImg = "/signs/signoG.png";
+const HImg = "/signs/signoH.png";
+const IImg = "/signs/signoI.png";
+const JImg = "/signs/signoJ.png";
+const KImg = "/signs/signoK.png";
+const LImg = "/signs/signoL.png";
+const MImg = "/signs/signoM.png";
+const NImg = "/signs/signoN.png";
+const NnImg = "/signs/signoN_.png";
+const OImg = "/signs/signoO.png";
+const PImg = "/signs/signoP.png";
+const QImg = "/signs/signoQ.png";
+const RImg = "/signs/signoR.png";
+const SImg = "/signs/signoS.png";
+const TImg = "/signs/signoT.png";
+const UImg = "/signs/signoU.png";
+const VImg = "/signs/signoV.png";
+const WImg = "/signs/signoW.png";
+const XImg = "/signs/signoX.png";
+const YImg = "/signs/signoY.png";
+const ZImg = "/signs/signoZ.png";
 
+// 🇵🇪 Alfabeto del Lenguaje de Señas Peruano (LSP)
+// Solo incluimos las letras A-Z + Ñ que están disponibles en public/signs/
 export const SignImageData = [
   {
     name: "A",
@@ -98,6 +87,10 @@ export const SignImageData = [
     url: NImg,
   },
   {
+    name: "Ñ",
+    url: NnImg,
+  },
+  {
     name: "O",
     url: OImg,
   },
@@ -142,67 +135,7 @@ export const SignImageData = [
     url: YImg,
   },
   {
-    name: "Bye",
-    url: ByeImg,
-  },
-  {
-    name: "Hello",
-    url: HelloImg,
-  },
-  {
-    name: "Meet",
-    url: MeetImg,
-  },
-  {
-    name: "ThankYou",
-    url: ThankYouImg,
-  },
-  {
-    name: "Yes",
-    url: YesImg,
-  },
-  {
-    name: "No",
-    url: NoImg,
-  },
-  {
-    name: "Deaf",
-    url: DeafImg,
-  },
-  {
-    name: "Tell",
-    url: TellImg,
-  },
-  {
-    name: "Please",
-    url: PleaseImg,
-  },
-  {
-    name: "Me",
-    url: MeImg,
-  },
-  {
-    name: "ILoveYou",
-    url: ILoveYouImg,
-  },
-  {
-    name: "Learn",
-    url: LearnImg,
-  },
-  {
-    name: "Pen",
-    url: PenImg,
-  },
-  {
-    name: "Name",
-    url: NameImg,
-  },
-  {
-    name: "Ok",
-    url: OkImg,
-  },
-  {
-    name: "NotOk",
-    url: NotOkImg,
+    name: "Z",
+    url: ZImg,
   },
 ];

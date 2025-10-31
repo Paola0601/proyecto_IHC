@@ -21,3 +21,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+dataset_peru
+
+25epoch_extracted
+
+exported_model_extracted
+
+Code For Training the Model
+
+test_export_temp

@@ -18,7 +18,7 @@ import ProgressBar from "./ProgressBar/ProgressBar";
 
 import DisplayImg from "../../assests/displayGif.gif";
 
-let startTime = "";
+let startTime = null;
 
 const Detect = () => {
   const webcamRef = useRef(null);
@@ -168,10 +168,9 @@ const Detect = () => {
 
       const endTime = new Date();
 
-      const timeElapsed = (
-        (endTime.getTime() - startTime.getTime()) /
-        1000
-      ).toFixed(2);
+      const timeElapsed = startTime 
+        ? ((endTime.getTime() - startTime.getTime()) / 1000).toFixed(2)
+        : 0;
 
       // Remove empty values
       const nonEmptyData = detectedData.filter(
@@ -346,15 +345,44 @@ const Detect = () => {
             </div>
 
             <div className="signlang_imagelist-container">
-              <h2 className="gradient__text">Practica la Seña</h2>
+              <h2 className="gradient__text">{webcamRunning ? "Lenguaje de señas Peruano" : "Aqui apareceran las señas"}</h2>
 
-              <div className="signlang_image-div">
+              <div 
+                className="signlang_image-div"
+                onClick={() => {
+                  if (webcamRunning) {
+                    const randomIndex = Math.floor(Math.random() * SignImageData.length);
+                    setCurrentImage(SignImageData[randomIndex]);
+                  }
+                }}
+                style={{ cursor: webcamRunning ? 'pointer' : 'default' }}
+              >
                 {currentImage ? (
-                  <img src={currentImage.url} alt={`img ${currentImage.id}`} />
+                  <>
+                    <img src={currentImage.url} alt={`Seña ${currentImage.name}`} />
+                    <div className="sign-label">
+                      <span className="sign-letter">{currentImage.name}</span>
+                    </div>
+                    <p className="click-hint">Click para cambiar</p>
+                  </>
                 ) : (
-                  <h3 className="gradient__text">
-                    ¡Haz clic en Empezar <br /> para practicar con imágenes!
-                  </h3>
+                  <div className="practice-placeholder">
+                    <div className="placeholder-icon">
+                      <i className="fas fa-hand-sparkles"></i>
+                    </div>
+                    <h3>¡Comienza a Practicar!</h3>
+                    <button 
+                      className="start-practice-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        enableCam();
+                      }}
+                      disabled={webcamRunning}
+                    >
+                      <i className="fas fa-play-circle"></i>
+                      {webcamRunning ? "Cámara Activa" : "Iniciar Práctica"}
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
