@@ -1,0 +1,23 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Instalar dependencias del sistema para OpenCV
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    libgl1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar paquetes Python
+RUN pip install --no-cache-dir \
+    opencv-python-headless==4.8.1.78 \
+    mediapipe==0.10.9 \
+    tensorflow==2.15.0 \
+    scikit-learn==1.3.2 \
+    numpy==1.24.3
+
+CMD ["python", "train_landmarks_model.py"]

@@ -5,7 +5,6 @@ import { FilesetResolver, GestureRecognizer } from "@mediapipe/tasks-vision";
 import {
   drawConnectors,
   drawLandmarks,
-  // HAND_CONNECTIONS,
 } from "@mediapipe/drawing_utils";
 
 import { HAND_CONNECTIONS } from "@mediapipe/hands";
@@ -69,6 +68,10 @@ const Detect = () => {
       return;
     }
 
+    if (!gestureRecognizer) {
+      return;
+    }
+
     if (runningMode === "IMAGE") {
       setRunningMode("VIDEO");
       gestureRecognizer.setOptions({ runningMode: "VIDEO" });
@@ -78,7 +81,6 @@ const Detect = () => {
     const videoWidth = video.videoWidth;
     const videoHeight = video.videoHeight;
 
-    // Asegurarse de que el video tenga dimensiones válidas
     if (videoWidth === 0 || videoHeight === 0) {
       return;
     }
@@ -90,13 +92,12 @@ const Detect = () => {
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, videoWidth, videoHeight);
 
-    // Asegurarse de que el canvas tenga las mismas dimensiones que el video
     if (canvasRef.current.width !== videoWidth || canvasRef.current.height !== videoHeight) {
       canvasRef.current.width = videoWidth;
       canvasRef.current.height = videoHeight;
     }
 
-    // Draw the results on the canvas, if any.
+    // Dibujar landmarks de las manos
     if (results.landmarks) {
       for (const landmarks of results.landmarks) {
         drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
@@ -107,27 +108,30 @@ const Detect = () => {
         drawLandmarks(canvasCtx, landmarks, { color: "#46657F", lineWidth: 2 });
       }
     }
-      if (results.gestures && results.gestures.length > 0 && 
-          results.gestures[0] && results.gestures[0][0]) {
-        const gesture = results.gestures[0][0];
-        if (gesture.categoryName) {
-          setDetectedData((prevData) => [
-            ...prevData,
-            {
-              SignDetected: gesture.categoryName,
-            },
-          ]);
 
-          setGestureOutput(gesture.categoryName);
-          setProgress(Math.round(parseFloat(gesture.score) * 100));
-        }
-      } else {
-        setGestureOutput("");
-        setProgress("");
-      }    if (webcamRunning === true) {
+    if (results.gestures && results.gestures.length > 0 && 
+        results.gestures[0] && results.gestures[0][0]) {
+      const gesture = results.gestures[0][0];
+      if (gesture.categoryName) {
+        setDetectedData((prevData) => [
+          ...prevData,
+          {
+            SignDetected: gesture.categoryName,
+          },
+        ]);
+
+        setGestureOutput(gesture.categoryName);
+        setProgress(Math.round(parseFloat(gesture.score) * 100));
+      }
+    } else {
+      setGestureOutput("");
+      setProgress(0);
+    }
+
+    if (webcamRunning === true) {
       requestRef.current = requestAnimationFrame(predictWebcam);
     }
-  }, [webcamRunning, runningMode, gestureRecognizer, setGestureOutput]);
+  }, [webcamRunning, runningMode, gestureRecognizer]);
 
   const animate = useCallback(() => {
     requestRef.current = requestAnimationFrame(animate);
@@ -148,7 +152,6 @@ const Detect = () => {
       return;
     }
 
-    // Asegúrate de que la webcam esté disponible
     if (!webcamRef.current) {
       alert("La webcam no está disponible.");
       return;
@@ -160,7 +163,6 @@ const Detect = () => {
       setCurrentImage(null);
       stopCamera();
       
-      // Limpiar el canvas
       if (canvasRef.current) {
         const canvasCtx = canvasRef.current.getContext("2d");
         canvasCtx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -173,17 +175,14 @@ const Detect = () => {
         1000
       ).toFixed(2);
 
-      // Remove empty values
       const nonEmptyData = detectedData.filter(
         (data) => data && data.SignDetected && data.SignDetected !== ""
       );
 
-      // Verificar si hay datos antes de procesar
       if (nonEmptyData.length === 0) {
         return;
       }
 
-      //to filter continous same signs in an array
       const resultArray = [];
       let current = nonEmptyData[0];
 
@@ -199,10 +198,8 @@ const Detect = () => {
         resultArray.push(current);
       }
 
-      //calculate count for each repeated sign
       const countMap = new Map();
 
-      // Verificar si hay resultados antes de procesarlos
       if (resultArray.length > 0) {
         for (const item of resultArray) {
           if (item && item.SignDetected) {
@@ -219,7 +216,6 @@ const Detect = () => {
           .slice(0, 5)
           .map(([sign, count]) => ({ SignDetected: sign, count }));
 
-        // object to send to action creator
         const data = {
           signsPerformed: outputArray,
           id: uuidv4(),
@@ -233,7 +229,6 @@ const Detect = () => {
         setDetectedData([]);
       }
     } else {
-      // Iniciar la cámara
       navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
           webcamRef.current.video.srcObject = stream;
@@ -241,7 +236,6 @@ const Detect = () => {
           startTime = new Date();
           requestRef.current = requestAnimationFrame(animate);
           
-          // Configurar el canvas con las dimensiones correctas
           const videoElement = webcamRef.current.video;
           videoElement.onloadedmetadata = () => {
             const width = videoElement.videoWidth;
@@ -259,18 +253,23 @@ const Detect = () => {
 
   useEffect(() => {
     async function loadGestureRecognizer() {
-      const vision = await FilesetResolver.forVisionTasks(
-        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
-      );
-      const recognizer = await GestureRecognizer.createFromOptions(vision, {
-        baseOptions: {
-          modelAssetPath:
-            "/sign_language_recognizer_25-04-2023.task",
-        },
-        numHands: 2,
-        runningMode: runningMode,
-      });
-      setGestureRecognizer(recognizer);
+      try {
+        const vision = await FilesetResolver.forVisionTasks(
+          "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
+        );
+        const recognizer = await GestureRecognizer.createFromOptions(vision, {
+          baseOptions: {
+            modelAssetPath: "/modelo_lsp_peruano.task",
+          },
+          numHands: 2,
+          runningMode: runningMode,
+        });
+        setGestureRecognizer(recognizer);
+        console.log("✓ Modelo LSP Peruano cargado correctamente");
+      } catch (error) {
+        console.error("Error cargando el modelo:", error);
+        alert("Error al cargar el modelo LSP Peruano. Verifica que el archivo esté en la carpeta public.");
+      }
     }
     loadGestureRecognizer();
   }, [runningMode]);
