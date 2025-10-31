@@ -1,15 +1,15 @@
 export const WhatfeatureData = [
   {
     title: "Learn",
-    text: "Start Learning this interesting sign language by learning basic signs for alphabets and common words from our Guide Section.",
+    text: "Comienza a aprender este interesante lenguaje de señas: aprende las señales básicas del alfabeto y palabras comunes en nuestra sección Guía.",
   },
   {
     title: "Practice",
-    text: "Go to the Detect Section and Practice the sign until our model detects and recognizes it completely.",
+    text: "Ve a la sección de Detección y practica la señal hasta que nuestro modelo la detecte y reconozca completamente.",
   },
   {
     title: "Test",
-    text: "Test yourselves on the same tool by trying to think of a sign jn your mind, doing it and let the model understand and recognize it,do the signs again but this time without referring to the guide.",
+    text: "Pruébense a sí mismos en la misma herramienta tratando de pensar en una señal en su mente, haciéndola y dejando que el modelo la entienda y la reconozca. Hagan las señales nuevamente, pero esta vez sin referirse a la guía.",
   },
 ];
 
@@ -17,18 +17,18 @@ export const WhatfeatureData = [
 export const featuresData = [
   {
     title: "Real-Time Recognition",
-    text: "Our advanced machine learning algorithms enable real-time recognition of sign language gestures, making communication faster and more efficient.",
+    text: "Nuestros avanzados algoritmos de aprendizaje automático permiten el reconocimiento en tiempo real de los gestos del lenguaje de señas, haciendo que la comunicación sea más rápida y eficiente.",
   },
   {
     title: "Easy-to-Use Interface",
-    text: "Our intuitive user interface is designed to be easy to use for people of all ages and skill levels, making it accessible to everyone.",
+    text: "Nuestra interfaz de usuario intuitiva está diseñada para ser fácil de usar para personas de todas las edades y niveles de habilidad, lo que la hace accesible para todos.",
   },
   {
     title: "Adaptive Learning",
-    text: "Our system uses adaptive learning to improve recognition accuracy over time, allowing for continuous improvement and increased efficiency.",
+    text: "Nuestro sistema utiliza el aprendizaje adaptativo para mejorar la precisión del reconocimiento con el tiempo, lo que permite una mejora continua y una mayor eficiencia.",
   },
   {
     title: "High Accuracy",
-    text: "With a high accuracy rate of over 80%, our system ensures that sign language communication is not only faster, but also more accurate.",
+    text: "Con una tasa de precisión superior al 80%, nuestro sistema garantiza que la comunicación en lenguaje de señas no solo sea más rápida, sino también más precisa.",
   }
 ];

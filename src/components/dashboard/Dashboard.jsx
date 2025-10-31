@@ -8,7 +8,6 @@ import ChartComp from "./Chart/ChartComp";
 import GoldTrophy from "../../assests/gold.png";
 import SilverTrophy from "../../assests/silver.png";
 import BronzeTrophy from "../../assests/bronze.png";
-import NoData from "../../assests/No-data.svg";
 
 import { quote } from "../../data/quotes";
 import Spinner from "../Spinner/Spinner";
@@ -65,11 +64,11 @@ const Dashboard = () => {
 
   // Sistema de ligas
   const leagues = [
-    { name: "Principiante", min: 0, max: 19, icon: "🌱", color: "#FFE5CC" },
-    { name: "Aprendiz", min: 20, max: 49, icon: "⭐", color: "#FFDAB9" },
-    { name: "Experto", min: 50, max: 99, icon: "🏆", color: "#FFB84D" },
-    { name: "Maestro", min: 100, max: 199, icon: "👑", color: "#FF8C42" },
-    { name: "Campeón", min: 200, max: Infinity, icon: "💎", color: "#FF6B35" }
+    { name: "Principiante", min: 0, max: 19, icon: "/ligas/liga_huevo.svg", color: "#FFE5CC" },
+    { name: "Aprendiz", min: 20, max: 49, icon: "/ligas/liga_tricer_1.svg", color: "#FFDAB9" },
+    { name: "Experto", min: 50, max: 99, icon: "/ligas/liga_tricer_2.svg", color: "#FFB84D" },
+    { name: "Maestro", min: 100, max: 199, icon: "/ligas/liga_tricer_3.svg", color: "#FF8C42" },
+    { name: "Campeón", min: 200, max: Infinity, icon: "/ligas/liga_tricer_3.svg", color: "#FF6B35" }
   ];
 
   const currentLeague = leagues.find(
@@ -90,7 +89,7 @@ const Dashboard = () => {
             <div className="league-system">
               <div className="current-league-card">
                 <div className="league-icon" style={{ background: currentLeague.color }}>
-                  <span className="icon-large">{currentLeague.icon}</span>
+                  <img className="icon-large" src={currentLeague.icon} alt={currentLeague.name} />
                 </div>
                 <div className="league-info">
                   <h3>Tu Liga Actual</h3>
@@ -102,7 +101,7 @@ const Dashboard = () => {
               {nextLeague && (
                 <div className="progress-section">
                   <div className="progress-header">
-                    <span>Progreso a {nextLeague.name} {nextLeague.icon}</span>
+                    <span>Progreso a {nextLeague.name} <img src={nextLeague.icon} alt={nextLeague.name} style={{ width: '20px', height: '20px', verticalAlign: 'middle' }} /></span>
                     <span className="progress-count">
                       {totalSignsPracticed}/{nextLeague.min}
                     </span>
@@ -125,7 +124,7 @@ const Dashboard = () => {
                       className={`league-badge ${totalSignsPracticed >= league.min ? 'unlocked' : 'locked'}`}
                       style={{ borderColor: league.color }}
                     >
-                      <span className="badge-icon">{league.icon}</span>
+                      <img className="badge-icon" src={league.icon} alt={league.name} />
                       <span className="badge-name">{league.name}</span>
                       <span className="badge-requirement">
                         {league.min === 0 ? '0+' : `${league.min}+`}
@@ -199,7 +198,7 @@ const Dashboard = () => {
             <div className="league-system">
               <div className="current-league-card">
                 <div className="league-icon" style={{ background: "white" }}>
-                  <span className="icon-large">🌱</span>
+                  <img className="icon-large" src="/ligas/liga_huevo.svg" alt="Principiante" />
                 </div>
                 <div className="league-info">
                   <h3>Tu Liga Actual</h3>
@@ -210,7 +209,7 @@ const Dashboard = () => {
 
               <div className="progress-section">
                 <div className="progress-header">
-                  <span>Progreso a Aprendiz ⭐</span>
+                  <span>Progreso a Aprendiz <img src="/ligas/liga_tricer_1.svg" alt="Aprendiz" style={{ width: '20px', height: '20px', verticalAlign: 'middle' }} /></span>
                   <span className="progress-count">0/20</span>
                 </div>
                 <div className="progress-bar-container">
@@ -225,27 +224,22 @@ const Dashboard = () => {
                 <h3>Desbloquea Todas las Ligas</h3>
                 <div className="leagues-grid">
                   <div className="league-badge unlocked" style={{ borderColor: "#FFE5CC" }}>
-                    <span className="badge-icon">🌱</span>
+                    <img className="badge-icon" src="/ligas/liga_huevo.svg" alt="Principiante" />
                     <span className="badge-name">Principiante</span>
                     <span className="badge-requirement">0+</span>
                   </div>
                   <div className="league-badge locked" style={{ borderColor: "#FFDAB9" }}>
-                    <span className="badge-icon">⭐</span>
+                    <img className="badge-icon" src="/ligas/liga_tricer_1.svg" alt="Aprendiz" />
                     <span className="badge-name">Aprendiz</span>
                     <span className="badge-requirement">20+</span>
                   </div>
                   <div className="league-badge locked" style={{ borderColor: "#FFB84D" }}>
-                    <span className="badge-icon">🏆</span>
+                    <img className="badge-icon" src="/ligas/liga_tricer_2.svg" alt="Experto" />
                     <span className="badge-name">Experto</span>
                     <span className="badge-requirement">50+</span>
                   </div>
-                  <div className="league-badge locked" style={{ borderColor: "#FF8C42" }}>
-                    <span className="badge-icon">👑</span>
-                    <span className="badge-name">Maestro</span>
-                    <span className="badge-requirement">100+</span>
-                  </div>
                   <div className="league-badge locked" style={{ borderColor: "#FF6B35" }}>
-                    <span className="badge-icon">💎</span>
+                    <img className="badge-icon" src="/ligas/liga_tricer_3.svg" alt="Campeón" />
                     <span className="badge-name">Campeón</span>
                     <span className="badge-requirement">200+</span>
                   </div>

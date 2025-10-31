@@ -1,3 +1,17 @@
+/* Variables de colores para el dashboard */
+:root {
+  --league-bg-primary: #F0F7FF;
+  --league-bg-card: #FFFFFF;
+  --league-border-primary: #92B4E9;
+  --league-border-accent: #FFD167;
+  --league-text-primary: #3B5F8C;
+  --league-text-secondary: #4B7BBF;
+  --league-accent: #FFD167;
+  --league-accent-light: #FFE6B3;
+  --league-shadow: 0 4px 15px rgba(75, 123, 191, 0.2);
+  --league-shadow-hover: 0 8px 25px rgba(75, 123, 191, 0.3);
+}
+
 .signlang_dashboard-container {
   font-family: var(--font-family);
 }
@@ -5,142 +19,182 @@
 /* Sistema de Ligas */
 .league-system {
   margin: 2rem;
-  padding: 2rem;
-  background: #FFF8F0;
-  border-radius: 20px;
-  border: 2px solid #FFE5CC;
+  padding: 2.5rem;
+  background: var(--league-bg-primary);
+  border-radius: 25px;
+  border: 3px solid var(--league-border-primary);
+  box-shadow: var(--league-shadow);
 }
 
 .current-league-card {
   display: flex;
   align-items: center;
   gap: 2rem;
-  background: #FFFFFF;
-  padding: 2rem;
-  border-radius: 15px;
+  background: var(--league-bg-card);
+  padding: 2.5rem;
+  border-radius: 20px;
   margin-bottom: 2rem;
-  border: 2px solid #FF8C42;
+  border: 3px solid var(--league-accent);
+  box-shadow: var(--league-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.current-league-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--league-shadow-hover);
 }
 
 .league-icon {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid rgba(0, 0, 0, 0.1);
+  border: 4px solid var(--league-border-accent);
+  box-shadow: 0 4px 15px rgba(255, 209, 103, 0.3);
+  padding: 15px;
+  background: #FFFBF5;
+  flex-shrink: 0;
 }
 
 .icon-large {
-  font-size: 3rem;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .league-info h3 {
-  color: #666666;
-  font-size: 1rem;
+  color: var(--league-text-secondary);
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  font-weight: 700;
 }
 
 .league-info h2 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin-bottom: 0.5rem;
+  color: var(--league-text-primary);
+  font-weight: 800;
 }
 
 .total-signs {
-  color: #FF8C42;
-  font-size: 1.2rem;
-  font-weight: 600;
+  color: var(--league-accent);
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
 .progress-section {
-  background: #FFFFFF;
-  padding: 1.5rem;
-  border-radius: 15px;
+  background: var(--league-bg-card);
+  padding: 2rem;
+  border-radius: 20px;
   margin-bottom: 2rem;
-  border: 2px solid #FFE5CC;
+  border: 3px solid var(--league-border-primary);
+  box-shadow: var(--league-shadow);
 }
 
 .progress-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  color: #333333;
-  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: var(--league-text-primary);
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .progress-count {
-  color: #FF8C42;
-  font-size: 1.1rem;
+  color: var(--league-accent);
+  font-size: 1.3rem;
+  font-weight: 800;
 }
 
 .progress-bar-container {
   width: 100%;
-  height: 30px;
-  background: #F5F5F5;
-  border-radius: 15px;
+  height: 35px;
+  background: var(--league-bg-primary);
+  border-radius: 20px;
   overflow: hidden;
-  border: 1px solid #E0E0E0;
+  border: 2px solid var(--league-border-primary);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar-fill {
   height: 100%;
-  background: #FF8C42;
+  background: linear-gradient(90deg, var(--league-accent), var(--league-accent-light));
   transition: width 0.5s ease;
-  border-radius: 15px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(255, 209, 103, 0.5);
 }
 
 .all-leagues h3 {
-  color: #333333;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  color: var(--league-text-primary);
+  margin-bottom: 2rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-align: center;
 }
 
 .leagues-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.8rem;
 }
 
 .league-badge {
-  background: #FFFFFF;
-  padding: 1.5rem;
-  border-radius: 15px;
-  border: 3px solid #E0E0E0;
+  background: var(--league-bg-card);
+  padding: 2rem 1.5rem;
+  border-radius: 20px;
+  border: 3px solid var(--league-border-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
   transition: all 0.3s ease;
   text-align: center;
+  box-shadow: var(--league-shadow);
+  cursor: pointer;
+}
+
+.league-badge:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--league-shadow-hover);
 }
 
 .league-badge.unlocked {
-  border-width: 3px;
-  transform: scale(1.02);
+  border-color: var(--league-accent);
+  border-width: 4px;
+  background: linear-gradient(135deg, #FFFEF9 0%, #FFF9E8 100%);
 }
 
 .league-badge.locked {
-  opacity: 0.5;
-  filter: grayscale(1);
+  opacity: 0.6;
+  filter: grayscale(0.8);
 }
 
 .badge-icon {
-  font-size: 2.5rem;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.league-badge:hover .badge-icon {
+  transform: scale(1.1);
 }
 
 .badge-name {
-  color: #333333;
-  font-weight: 600;
-  font-size: 1.1rem;
+  color: var(--league-text-primary);
+  font-weight: 700;
+  font-size: 1.15rem;
 }
 
 .badge-requirement {
-  color: #666666;
-  font-size: 0.9rem;
+  color: var(--league-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 
@@ -286,27 +340,29 @@ td {
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  50% { transform: translateY(-10px); }
 }
 
 .start-practice-btn {
-  background: #FF8C42;
-  color: #fff;
-  padding: 1rem 3rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  border: 2px solid #FF8C42;
+  background: linear-gradient(135deg, var(--league-accent), var(--league-accent-light));
+  color: var(--league-text-primary);
+  padding: 1.2rem 3.5rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  border: 3px solid var(--league-accent);
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  box-shadow: 0 6px 20px rgba(255, 209, 103, 0.4);
 }
 
 .start-practice-btn:hover {
-  background: #FF6B35;
-  border-color: #FF6B35;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, var(--league-accent-light), var(--league-accent));
+  border-color: var(--league-accent-light);
+  transform: scale(1.08);
+  box-shadow: 0 10px 30px rgba(255, 209, 103, 0.6);
 }
 
 .button-container {
@@ -323,29 +379,32 @@ td {
 
   .league-system {
     margin: 1rem;
-    padding: 1.5rem;
+    padding: 2rem;
   }
 
   .current-league-card {
     flex-direction: column;
     text-align: center;
+    padding: 2rem;
   }
 
   .league-icon {
-    width: 80px;
-    height: 80px;
-  }
-
-  .icon-large {
-    font-size: 2.5rem;
+    width: 100px;
+    height: 100px;
   }
 
   .league-info h2 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   .leagues-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .badge-icon {
+    width: 70px;
+    height: 70px;
   }
 
   .empty-state-message {
@@ -402,34 +461,41 @@ td {
 
   .league-system {
     margin: 0.5rem;
-    padding: 1rem;
-  }
-
-  .current-league-card {
     padding: 1.5rem;
   }
 
-  .league-icon {
-    width: 70px;
-    height: 70px;
+  .current-league-card {
+    padding: 1.8rem;
   }
 
-  .icon-large {
-    font-size: 2rem;
+  .league-icon {
+    width: 90px;
+    height: 90px;
+    padding: 12px;
   }
 
   .league-info h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   .leagues-grid {
     grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .badge-icon {
+    width: 65px;
+    height: 65px;
   }
 
   .progress-header {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.8rem;
     text-align: center;
+  }
+
+  .progress-bar-container {
+    height: 30px;
   }
 
   .signlang_sign-table{
