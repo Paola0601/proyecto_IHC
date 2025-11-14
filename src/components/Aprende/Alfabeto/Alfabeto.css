@@ -7,6 +7,17 @@
   flex-direction: column;
 }
 
+/* Alfabeto styles - uses global CSS variables for palette and font */
+.alfabeto-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family);
+}
+
 .alfabeto-header {
   text-align: center;
   margin-bottom: 3rem;
@@ -17,7 +28,7 @@
   margin-bottom: 2rem;
   padding: 0.8rem 1.5rem;
   background: #f5f5f5;
-  color: #333;
+  color: var(--color-primary-dark);
   border-radius: 8px;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -25,18 +36,18 @@
 }
 
 .back-button:hover {
-  background: #e0e0e0;
+  background: #eaeaea;
   transform: translateX(-5px);
 }
 
 .alfabeto-header h1 {
   font-size: 2.5rem;
-  color: #333333;
+  color: var(--color-primary-dark);
   margin-bottom: 1.5rem;
   font-weight: 800;
 }
 
-.progress-bar {
+.progress-container {
   width: 100%;
   height: 12px;
   background: #f0f0f0;
@@ -46,16 +57,22 @@
   max-width: 500px;
 }
 
+/* keep compatibility with markup that uses .progress-bar */
+.progress-bar { 
+  width: 100%;
+  height: 12px;
+}
+
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #FF8C42, #FF6B35);
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
   transition: width 0.3s ease;
   border-radius: 10px;
 }
 
 .progress-text {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--color-primary-dark);
   font-weight: 600;
   margin-top: 0.5rem;
 }
@@ -69,14 +86,17 @@
   margin: 2rem 0;
 }
 
+
 .flashcard {
-  width: 100%;
-  max-width: 500px;
-  height: 400px;
+  /* make the card a responsive square */
+  width: min(70vw, 500px);
+  aspect-ratio: 1 / 1;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
   cursor: pointer;
+  transition: transform 0.6s ease;
+  transform-origin: center center;
+  margin: 0 auto; /* ensure the card itself is centered in the wrapper */
 }
 
 .flashcard.flipped {
@@ -86,26 +106,29 @@
 .flashcard-front,
 .flashcard-back {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  transform-origin: center center;
 }
 
 .flashcard-front {
-  background: linear-gradient(135deg, #FF8C42 0%, #FFB84D 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  color: var(--color-primary-dark);
 }
 
 .flashcard-back {
   background: white;
   transform: rotateY(180deg);
-  border: 3px solid #FF8C42;
+  border: 3px solid var(--color-accent);
 }
 
 .letter-display,
@@ -122,19 +145,21 @@
 }
 
 .sign-display h2 {
-  color: #333;
+  color: var(--color-primary-dark);
 }
 
 .letter {
-  font-size: 10rem;
+  /* scale letter responsively to fit the square */
+  font-size: clamp(4rem, 14vw, 10rem);
   font-weight: 900;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
   line-height: 1;
 }
 
 .sign-image {
-  width: 280px;
-  height: 280px;
+  /* keep the sign image perfectly square and sized relative to the card */
+  width: 70%;
+  aspect-ratio: 1 / 1;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -153,7 +178,7 @@
 .hint {
   margin-top: 1.5rem;
   font-size: 0.95rem;
-  opacity: 0.8;
+  opacity: 0.85;
   font-style: italic;
 }
 
@@ -172,30 +197,30 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background: #FF8C42;
+  transition: all 0.2s ease;
+  background: var(--color-accent);
   color: white;
   min-width: 150px;
 }
 
 .control-btn:hover:not(:disabled) {
-  background: #FF6B35;
+  filter: brightness(0.95);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 140, 66, 0.3);
+  box-shadow: 0 6px 18px rgba(17, 38, 59, 0.08);
 }
 
 .control-btn:disabled {
   background: #cccccc;
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .flip-btn {
-  background: #333333;
+  background: var(--color-primary-dark);
 }
 
 .flip-btn:hover {
-  background: #555555;
+  background: #0f3149;
 }
 
 @media screen and (max-width: 768px) {
@@ -204,17 +229,16 @@
   }
 
   .flashcard {
-    height: 350px;
-    max-width: 100%;
+    width: min(85vw, 420px);
+    aspect-ratio: 1 / 1;
   }
 
   .letter {
-    font-size: 7rem;
+    font-size: clamp(3.5rem, 18vw, 7rem);
   }
 
   .sign-image {
-    width: 200px;
-    height: 200px;
+    width: 72%;
   }
 
   .controls {

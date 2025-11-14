@@ -8,26 +8,27 @@ const Aprende = () => {
       id: 1,
       title: 'Alfabeto',
       description: '27 letras del abecedario en LSP',
-      icon: '🔤',
+      // use public SVGs (place files in public/aprende/1.svg etc.)
+      imagePath: '/aprende/1.svg',
       path: '/aprende/alfabeto',
-      color: '#FF8C42'
+      color: 'var(--color-accent)'
     },
     {
       id: 2,
       title: 'Números',
       description: 'Números del 0 al 10',
-      icon: '🔢',
+      imagePath: '/aprende/2.svg',
       path: '/aprende/numeros',
-      color: '#FFB84D',
+      color: 'var(--color-accent)',
       disabled: true
     },
     {
       id: 3,
       title: 'Saludos Comunes',
       description: 'Frases básicas de cortesía',
-      icon: '👋',
+      imagePath: '/aprende/3.svg',
       path: '/aprende/saludos',
-      color: '#FF6B35',
+      color: 'var(--color-accent)',
       disabled: true
     }
   ];
@@ -48,7 +49,11 @@ const Aprende = () => {
             style={{ borderColor: module.color }}
           >
             <div className="module-icon" style={{ background: module.color }}>
-              {module.icon}
+              {module.imagePath ? (
+                <img src={module.imagePath} alt={`${module.title} icon`} />
+              ) : (
+                module.icon || module.title.charAt(0)
+              )}
             </div>
             <h2>{module.title}</h2>
             <p>{module.description}</p>
