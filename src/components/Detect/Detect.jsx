@@ -47,7 +47,7 @@ const Detect = () => {
   // Estado para validar si el usuario hizo la seña correcta
   const [correctGestureCount, setCorrectGestureCount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
-  const REQUIRED_CORRECT_COUNT = 5; // Número de detecciones correctas consecutivas necesarias
+  const REQUIRED_CORRECT_COUNT = 3; // Número de detecciones correctas consecutivas necesarias
 
   useEffect(() => {
     // Eliminar el auto-change, ya no es necesario
@@ -62,6 +62,7 @@ const Detect = () => {
   // }
 
   const predictWebcam = useCallback(() => {
+    console.log(`[predictWebcam] Running. Mode: ${practiceMode}, Image: ${currentImage?.name || 'null'}, Correct Count: ${correctGestureCount}`);
     if (!webcamRef.current || !webcamRef.current.video || webcamRef.current.video.readyState !== 4) {
       return;
     }
@@ -130,24 +131,26 @@ const Detect = () => {
                 console.log(`✅ ¡CORRECTO! "${gesture.categoryName}" coincide con "${currentImage.name}"`);
                 console.log(`📊 Contador actual: ${correctGestureCount}, incrementando...`);
                 
-                const newCount = correctGestureCount + 1;
-                console.log(`📊 Nuevo progreso: ${newCount}/${REQUIRED_CORRECT_COUNT}`);
-                
-                setCorrectGestureCount(newCount);
-                
-                // Si alcanza el número requerido, cambiar imagen
-                if (newCount >= REQUIRED_CORRECT_COUNT) {
-                  console.log(`🎉 ¡COMPLETADO! Cambiando a nueva seña...`);
-                  setShowSuccess(true);
-                  setTimeout(() => {
-                    const randomIndex = Math.floor(Math.random() * SignImageData.length);
-                    const newImage = SignImageData[randomIndex];
-                    console.log(`🔄 Nueva seña: ${newImage.name}`);
-                    setCurrentImage(newImage);
-                    setCorrectGestureCount(0);
-                    setShowSuccess(false);
-                  }, 1000);
-                }
+                setCorrectGestureCount(prevCount => {
+                  const newCount = prevCount + 1;
+                  console.log(`📊 Nuevo progreso: ${newCount}/${REQUIRED_CORRECT_COUNT}`);
+                  
+                  // Si alcanza el número requerido, cambiar imagen
+                  if (newCount >= REQUIRED_CORRECT_COUNT) {
+                    console.log(`🎉 ¡COMPLETADO! Cambiando a nueva seña...`);
+                    setShowSuccess(true);
+                    setTimeout(() => {
+                      const randomIndex = Math.floor(Math.random() * SignImageData.length);
+                      const newImage = SignImageData[randomIndex];
+                      console.log(`🔄 Nueva seña: ${newImage.name}`);
+                      setCurrentImage(newImage);
+                      setCorrectGestureCount(0);
+                      setShowSuccess(false);
+                    }, 1000);
+                  }
+                  
+                  return newCount;
+                });
               } else {
                 // Seña incorrecta
                 console.log(`❌ Incorrecto: esperaba "${currentImage.name}", detectó "${gesture.categoryName}"`);
@@ -167,7 +170,15 @@ const Detect = () => {
       }    if (webcamRunning === true) {
       requestRef.current = requestAnimationFrame(predictWebcam);
     }
-  }, [webcamRunning, runningMode, gestureRecognizer, setGestureOutput]);
+  }, [
+    webcamRunning,
+    runningMode,
+    gestureRecognizer,
+    setGestureOutput,
+    practiceMode,
+    currentImage,
+    correctGestureCount,
+  ]);
 
   const animate = useCallback(() => {
     requestRef.current = requestAnimationFrame(animate);
@@ -276,9 +287,20 @@ const Detect = () => {
       navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
           webcamRef.current.video.srcObject = stream;
-          setWebcamRunning(true);
           startTime = new Date();
-          requestRef.current = requestAnimationFrame(animate);
+          
+          // Iniciar con una imagen aleatoria
+          const randomIndex = Math.floor(Math.random() * SignImageData.length);
+          const newImage = SignImageData[randomIndex];
+          console.log(`[enableCam] Setting initial image: ${newImage.name}, Mode: ${practiceMode}`);
+          setCurrentImage(newImage);
+          setCorrectGestureCount(0);
+          
+          // Activar webcam y animación después de establecer la imagen
+          setTimeout(() => {
+            setWebcamRunning(true);
+            requestRef.current = requestAnimationFrame(animate);
+          }, 100);
           
           // Configurar el canvas con las dimensiones correctas
           const videoElement = webcamRef.current.video;
@@ -349,9 +371,11 @@ const Detect = () => {
                   onClick={() => {
                     if (webcamRunning) {
                       if (practiceMode === "validation") {
+                        console.log("[Mode Switch] Changing to MANUAL");
                         setPracticeMode("manual");
                         setCorrectGestureCount(0);
                       } else {
+                        console.log("[Mode Switch] Changing to VALIDATION");
                         setPracticeMode("validation");
                         setCorrectGestureCount(0);
                       }
