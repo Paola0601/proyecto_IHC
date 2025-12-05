@@ -1,64 +1,67 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Aprende.css';
+import React from "react";
+import "./Aprende.css";
+import { useNavigate } from "react-router-dom";
+import { FaHandPaper, FaSmile, FaSortAlphaDown } from "react-icons/fa";
+
+// Datos de los "Módulos" (Aventuras)
+const modules = [
+  {
+    id: 1,
+    title: "El Alfabeto Mágico",
+    desc: "Descubre las letras secretas de la A a la Z.",
+    path: "/aprende/alfabeto",
+    icon: <FaSortAlphaDown />,
+    color: "var(--color-primary)", // Turquesa
+    active: true,
+  },
+  {
+    id: 2,
+    title: "Saludos Divertidos",
+    desc: "Aprende a decir Hola, Gracias y más.",
+    path: "/aprende/saludos",
+    icon: <FaHandPaper />,
+    color: "var(--color-accent)", // Rojo/Naranja
+    active: false,
+  },
+  {
+    id: 3,
+    title: "Emociones y Caras",
+    desc: "¿Estás feliz o triste? ¡Dilo con señas!",
+    path: "/aprende/emociones",
+    icon: <FaSmile />,
+    color: "var(--color-yellow)", // Amarillo
+    active: false,
+  },
+];
 
 const Aprende = () => {
-  const modules = [
-    {
-      id: 1,
-      title: 'Alfabeto',
-      description: '27 letras del abecedario en LSP',
-      // use public SVGs (place files in public/aprende/1.svg etc.)
-      imagePath: '/aprende/1.svg',
-      path: '/aprende/alfabeto',
-      color: 'var(--color-accent)'
-    },
-    {
-      id: 2,
-      title: 'Números',
-      description: 'Números del 0 al 10',
-      imagePath: '/aprende/2.svg',
-      path: '/aprende/numeros',
-      color: 'var(--color-accent)',
-      disabled: true
-    },
-    {
-      id: 3,
-      title: 'Saludos Comunes',
-      description: 'Frases básicas de cortesía',
-      imagePath: '/aprende/3.svg',
-      path: '/aprende/saludos',
-      color: 'var(--color-accent)',
-      disabled: true
-    }
-  ];
+  const navigate = useNavigate();
 
   return (
     <div className="aprende-container">
       <div className="aprende-header">
-        <h1>Módulos de Aprendizaje</h1>
-        <p>Selecciona un módulo para comenzar a aprender Lenguaje de Señas Peruano</p>
+        <h1>¡Elige tu Aventura!</h1>
+        <p>Escoge una misión y empieza a ganar superpoderes.</p>
       </div>
 
       <div className="modules-grid">
-        {modules.map((module) => (
-          <Link 
-            to={module.disabled ? '#' : module.path} 
-            key={module.id}
-            className={`module-card ${module.disabled ? 'disabled' : ''}`}
-            style={{ borderColor: module.color }}
+        {modules.map((mod) => (
+          <div 
+            key={mod.id} 
+            className={`module-card ${!mod.active ? 'disabled' : ''}`}
+            onClick={() => mod.active && navigate(mod.path)}
+            style={{ borderTopColor: mod.color }}
           >
-            <div className="module-icon" style={{ background: module.color }}>
-              {module.imagePath ? (
-                <img src={module.imagePath} alt={`${module.title} icon`} />
-              ) : (
-                module.icon || module.title.charAt(0)
-              )}
+            <div className="module-icon" style={{ color: mod.color, background: `${mod.color}20` }}>
+                {mod.icon}
             </div>
-            <h2>{module.title}</h2>
-            <p>{module.description}</p>
-            {module.disabled && <span className="coming-soon">Próximamente</span>}
-          </Link>
+            <h2>{mod.title}</h2>
+            <p>{mod.desc}</p>
+            
+            {!mod.active && (
+               <span className="coming-soon" style={{ backgroundColor: mod.color }}>¡Próximamente!</span>
+            )}
+          </div>
         ))}
       </div>
     </div>

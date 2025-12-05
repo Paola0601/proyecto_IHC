@@ -1,121 +1,159 @@
 .signlang__whatsignlang {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
-    /* Fondo suave en amarillo muy claro, alineado al Header */
-    background: linear-gradient(135deg, #FFFDF2 0%, #FFF6D9 100%);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    box-shadow: var(--shadow-light);
+    padding: 4rem; /* Más espacio interno */
+    background: var(--color-surface);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    max-width: 1200px;
+    margin: 4rem auto;
 }
 
-.signlang__whatsignlang-feature {
-    display: flex;
-}
-
-/* Customizing feature component as per needs */
-.signlang__whatsignlang-feature .signlang__features-container__feature {
-    margin: 0;
-    background: var(--background-white);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    box-shadow: var(--shadow-light);
-    padding: 1.25rem;
-}
-
-/* Customizing feature component as per needs */
-.signlang__whatsignlang-feature .signlang__features-container_feature-text {
-    max-width: 700px;
-    color: var(--text-dark);
-}
-
-.signlang__whatsignlang-heading {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    
-    margin: 4rem 0 2rem;
-}
-
+/* Títulos de la sección */
 .signlang__whatsignlang-heading h1 {
-    font-size: 34px;
-    line-height: 45px;
+    font-size: 44px;
+    line-height: 1.2;
     font-weight: 800;
-    font-family: var(--font-family);
-    max-width: 510px;
-    color: var(--medium-blue);
+    font-family: var(--font-title);
+    margin-bottom: 1rem;
+    color: var(--color-primary-dark);
 }
 
+/* Contenedor de Grid con más espacio */
 .signlang__whatsignlang-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Tarjetas un poco más anchas */
+    gap: 4rem; /* Mucho más espacio entre tarjetas */
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Estilo de las Tarjetas Individuales */
+.whatsignlang-card {
+    background: var(--color-surface); 
+    border: 2px solid var(--color-border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    gap: 1rem;
-    margin-top: 3rem;
-}
-
-/* Customizing feature component as per needs */
-.signlang__whatsignlang-container .signlang__features-container__feature {
-    flex: 1;
-    margin: 1rem;
-    min-width: 210px;
-    display: unset;
     flex-direction: column;
-    background: var(--background-white);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    box-shadow: var(--shadow-light);
-    padding: 1.25rem;
-    transition: var(--transition);
+    position: relative;
+    height: 100%; /* Para que todas tengan la misma altura */
 }
 
-/* Customizing feature component as per needs */
-.signlang__whatsignlang-container .signlang__features-container_feature-text {
-    margin-top: 0.5rem;
-    color: var(--text-dark);
+.whatsignlang-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border-color: var(--color-primary);
 }
 
-/* Hover agradable con acento amarillo */
-.signlang__whatsignlang-container .signlang__features-container__feature:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(255, 197, 87, 0.25);
-    border-color: rgba(255, 197, 87, 0.6);
+.card-image-placeholder {
+    width: 100%;
+    height: 220px; /* Un poco más alto */
+    background: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.whatsignlang-card:hover .card-image-placeholder {
+    border-color: var(--color-primary);
+}
+
+.placeholder-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff; /* Texto blanco sobre colores de fondo */
+    font-weight: 800;
+    font-family: var(--font-title);
+    opacity: 1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 1rem;
+}
+
+.card-content {
+    padding: 2.5rem 2rem; /* Más padding interno */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1; /* Ocupar el espacio restante */
+}
+
+/* Pasos */
+.card-step {
+    background: var(--color-accent);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-title);
+    font-weight: 900;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 0 var(--color-accent-hover);
+    transform: rotate(-5deg);
+}
+
+.card-content h3 {
+    font-family: var(--font-title);
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--color-primary-dark);
+}
+
+.card-content p {
+    font-family: var(--font-family);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text);
 }
 
 @media screen and (max-width: 850px) {
     .signlang__whatsignlang-heading {
-        flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 0rem;
-    }
-
-    .signlang__whatsignlang-heading p {
-        margin-top: 1rem;
+        text-align: center;
     }
 }
 
 @media screen and (max-width: 650px) {
-    /* Customizing feature component as per needs */
-    .signlang__whatsignlang-feature .signlang__features-container__feature {
-        flex-direction: column;
+    .signlang__whatsignlang {
+        padding: 2rem;
+        margin: 2rem auto;
     }
-
-    /* Customizing feature component as per needs */
-    .signlang__whatsignlang-feature .signlang__features-container_feature-text {
-        margin-top: 0.5rem;
-    }
-
+    
     .signlang__whatsignlang-heading h1 {
-        font-size: 28px;
-        line-height: 40px;
+        font-size: 34px;
     }
 }
 
-@media screen and (max-width: 350px) {
-    /* Customizing feature component as per needs */
-    .signlang__whatsignlang-container .signlang__features-container__feature {
-        margin: 1rem 0;
-        min-width: 100%;
+.card-content p {
+    font-family: var(--font-family);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text-light);
+}
+
+@media screen and (max-width: 850px) {
+    .signlang__whatsignlang-heading {
+        text-align: left;
+        align-items: flex-start;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .signlang__whatsignlang-heading h1 {
+        font-size: 34px;
     }
 }

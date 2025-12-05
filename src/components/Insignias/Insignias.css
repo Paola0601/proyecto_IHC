@@ -1,0 +1,113 @@
+.insignias-container {
+  min-height: 80vh;
+  /* Layout Fix: Constrain width and center */
+  max-width: 1200px;
+  margin: 4rem auto;
+  width: 100%;
+  
+  text-align: center;
+  
+  /* Estilo Contenedor (Tarjeta News) */
+  background: var(--color-surface);
+  border-radius: 25px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  padding: 3rem;
+}
+
+.insignias-header {
+  margin-bottom: 3rem;
+  padding-top: 2rem;
+}
+
+.insignias-header h1 {
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 3rem;
+  color: var(--color-primary-dark); /* Título oscuro y sólido */
+  margin-bottom: 1rem;
+}
+
+.insignias-header p {
+  color: var(--color-text-light);
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+}
+
+.insignias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.badge-card {
+  background: var(--color-surface); /* Tarjeta blanca limpia */
+  border-radius: 15px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.badge-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  border-color: var(--color-primary-light);
+}
+
+.badge-image-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+}
+
+.badge-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.badge-card.locked .badge-image-wrapper img {
+  filter: grayscale(100%) opacity(0.3);
+}
+
+.lock-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: var(--color-text-light);
+}
+
+.badge-card h3 {
+  font-family: var(--font-family);
+  color: var(--color-primary-dark);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge-card p {
+  font-family: var(--font-family);
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+@media screen and (max-width: 550px) {
+  .insignias-header h1 {
+    font-size: 2rem;
+  }
+  
+  .insignias-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}

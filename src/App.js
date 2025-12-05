@@ -7,6 +7,8 @@ import {
   Detect,
   NotFound,
   Dashboard,
+  Insignias,
+  Shapes, // Importamos Shapes
 } from "./components";
 import Aprende from "./components/Aprende/Aprende";
 import Alfabeto from "./components/Aprende/Alfabeto/Alfabeto";
@@ -26,6 +28,7 @@ const notifyMsg = (type, msg) => {
 const Layout = ({ children }) => {
   return (
     <>
+      <Shapes /> {/* Formas de fondo añadidas aquí */}
       <Navbar notifyMsg={notifyMsg} />
       {children}
       <Footer />
@@ -64,6 +67,16 @@ function App() {
           element={
             <Layout>
               <Dashboard/>
+            </Layout>
+          }
+        />
+
+        <Route
+          exact
+          path="/insignias"
+          element={
+            <Layout>
+              <Insignias />
             </Layout>
           }
         />

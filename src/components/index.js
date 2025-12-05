@@ -10,7 +10,11 @@ export { default as Working} from './Working/Working.jsx'
 export { default as Detect} from './Detect/Detect.jsx'
 export { default as Testimonials} from './Testimonials/Testimonials.jsx'
 export { default as Card} from './Testimonials/Card/Card.jsx'
-export { default as NotFound} from './NotFound/NotFound.jsx'
+export { default as NotFound } from './NotFound/NotFound';
+export { default as Insignias } from './Insignias/Insignias';
 export { default as Dashboard} from './dashboard/Dashboard.jsx'
 export { default as ChartComp } from './dashboard/Chart/ChartComp.jsx'
 export { default as ProgressBar } from './Detect/ProgressBar/ProgressBar.jsx'
+export { default as News } from './News/News.jsx'
+export { default as Shapes } from './Shapes/Shapes.jsx'
+export { default as RewardsCarousel } from './RewardsCarousel/RewardsCarousel.jsx'

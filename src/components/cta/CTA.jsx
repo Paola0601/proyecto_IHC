@@ -7,14 +7,14 @@ const CTA = () => {
         <div className='signlang_cta'>
             <div className="signlang_cta-content">
                 <h3>
-                    Get Started and Try the Model
+                    ¿Listo para comenzar tu aventura?
                 </h3>
             </div>
 
             <div className="signlang_cta-button">
                 <button>
                     <Link to="/detect">
-                      Try Now !
+                      ¡Empieza Ahora!
                     </Link>
                 </button>
             </div>

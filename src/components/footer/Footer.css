@@ -1,84 +1,96 @@
-.signlang__footer{
+.signlang__footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    padding: 1.25rem 2rem;
-    background: linear-gradient(135deg, #FFFDF2 0%, #FFF6D9 100%);
-    border-top: 1px solid var(--border-color);
+    padding: 3rem 4rem;
+    background-color: var(--color-primary); /* Fondo Turquesa */
+    /* No borde superior necesario */
+    color: #fff; /* Texto Blanco */
+    margin-top: 4rem; /* Separación del contenido */
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
 }
 
-.signlang__footer-logo{
+.signlang__footer-logo {
    flex: 1;
+   display: flex;
    justify-content: flex-start;
    align-items: center;
 }
 
-.signlang__footer-logo img{
-    width: 220px;
+.signlang__footer-logo img {
+    width: 150px;
     height: auto;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08));
+    opacity: 1;
+    background: var(--color-yellow); /* Fondo amarillo para el logo para que resalte */
+    padding: 5px;
+    border-radius: 50px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
 }
 
-.signlang__footer-copy{
+.signlang__footer-copy {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     flex: 2;
 }
 
-.footer-title{
-    color: var(--medium-blue);
+.footer-title {
+    color: #fff; /* Blanco */
     font-family: var(--font-family);
-    font-weight: 700;
-    font-size: 16px;
-    margin: 0 0 6px;
+    font-weight: 800;
+    font-size: 18px;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
 }
 
-.footer-brand{ color: var(--dark-blue); }
-.footer-rights{ color: var(--text-light); font-weight: 600; }
+.footer-brand { 
+    color: var(--color-yellow); /* Amarillo para resaltar la marca */
+    font-weight: 900;
+}
 
-.footer-authors{
-    margin: 0;
-    color: var(--text-dark);
+.footer-rights { 
+    color: rgba(255, 255, 255, 0.9); 
+    font-weight: 500; 
+}
+
+.footer-authors {
+    margin: 0.5rem 0 0;
+    color: rgba(255, 255, 255, 0.8);
     font-family: var(--font-family);
     font-size: 14px;
 }
 
-.footer-authors span{
-    color: var(--dark-blue);
-    font-weight: 600;
+.footer-authors span {
+    color: #fff;
+    font-weight: 700;
 }
  
-
 @media screen and (max-width: 700px) {
-    .signlang__footer{
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 1.5rem 1rem;
+    .signlang__footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 3rem 1.5rem;
+        gap: 2rem;
     }
 
-        .signlang__footer-copy{
-            align-items: center;
-        }
+    .signlang__footer-copy {
+        align-items: center;
+    }
 }
 
-
 @media screen and (max-width: 550px) {
-    html,body{
-        overflow-x: hidden;
-    }
-    
-    .signlang__footer-logo img{
-        width: 180px;
-        height: auto;
+    .signlang__footer-logo img {
+        width: 130px;
     }
       
-    .footer-title{
-        font-size: 14px;
+    .footer-title {
+        font-size: 15px;
     }
-    .footer-authors{
+    .footer-authors {
         font-size: 13px;
     }
 }

@@ -1,57 +1,78 @@
-.signlang_features{
-   width:100%;
-   display: flex;
-   justify-content: space-between;
+.signlang_features {
+    width: 100%;
+    max-width: 1200px;
+    margin: 4rem auto;
+    display: flex;
+    flex-direction: column; /* Cambiado a columna para centrar título arriba */
+    align-items: center;    /* Centrar todo horizontalmente */
+    padding: 4rem;
+    gap: 3rem;
+    
+    /* Estilo Contenedor */
+    background: var(--color-surface);
+    border-radius: 25px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-.signlang_feature-heading{
+.signlang_feature-heading {
     display: flex;
-    flex: 1;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    text-align: left;
-    margin-right: 5rem;
+    text-align: center; /* Centrar texto del título */
+    margin: 0;
+    max-width: 800px;
 }
 
 .signlang_feature-heading h1 {
-    font-size: 34px;
-    line-height: 45px;
+    font-size: 38px;
+    line-height: 1.2;
     font-weight: 800;
-    font-family: var(--font-family);
+    font-family: var(--font-title);
+    color: var(--color-primary-dark);
 }
 
 .signlang_feature-heading p {
-    color: var(--color-subtext);
-    font-size: 16px;
-    line-height: 30px;
+    color: var(--color-text);
+    font-size: 18px;
+    line-height: 1.6;
     font-weight: 500;
     font-family: var(--font-family);
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .singlang_features-container {
-    display: flex;
-    flex: 1.5;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 Columnas (2 items izquierda, 2 derecha) */
+    gap: 2rem;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* Responsive: Colapsar a 1 columna en móviles */
+@media screen and (max-width: 850px) {
+    .signlang_features {
+        padding: 2rem;
+    }
+
+    .signlang_feature-heading h1 {
+        font-size: 28px;
+    }
+
+    .singlang_features-container {
+        grid-template-columns: 1fr; /* 1 Columna */
+    }
 }
 
 
 @media screen and (max-width: 990px) {
     .signlang_features{
         flex-direction: column;
+        padding: 2rem;
     }
 
     .signlang_feature-heading{
         margin: 0 0 2rem 0; 
-    }
-}
-
-@media screen and (max-width: 550px) {
-    .signlang_feature-heading h1{
-        font-size: 28px;
-        line-height: 38px;
     }
 }

@@ -7,13 +7,14 @@ const Features = () => {
     return (
         <div className='signlang_features section__padding'>
             <div className="signlang_feature-heading">
-                <h1 className="gradient__text">Revolutionizing Sign Language Communication with Cutting-Edge Technology</h1>
-                <p>Explore the Features</p>
+                {/* Título actualizado: Más amigable y en español */}
+                <h1 className="gradient__text">¡Aprender nunca fue tan divertido!</h1>
+                <p>Explora nuestras funciones mágicas</p>
             </div>
 
              <div className="singlang_features-container">
                 {featuresData.map((data,i)=> (
-                    <Feature title={data.title} text={data.text} key={i*124569}/>
+                    <Feature title={data.title} text={data.text} index={i} key={i*124569}/>
                 ))}
              </div>
 

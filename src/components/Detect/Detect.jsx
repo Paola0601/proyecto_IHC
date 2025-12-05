@@ -14,9 +14,11 @@ import Webcam from "react-webcam";
 import { SignImageData } from "../../data/SignImageData";
 import { useDispatch, useSelector } from "react-redux";
 import { addSignData } from "../../redux/actions/signdataaction";
+import { login } from "../../redux/actions/authaction"; // Importar login action
 import ProgressBar from "./ProgressBar/ProgressBar";
 
 import DisplayImg from "../../assests/displayGif.gif";
+import confetti from "canvas-confetti";
 
 let startTime = null;
 
@@ -38,6 +40,10 @@ const Detect = () => {
   const { accessToken } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+  
+  const handleLogin = () => {
+      dispatch(login());
+  };
 
   const [currentImage, setCurrentImage] = useState(null);
 
@@ -47,19 +53,47 @@ const Detect = () => {
   // Estado para validar si el usuario hizo la seña correcta
   const [correctGestureCount, setCorrectGestureCount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showShake, setShowShake] = useState(false); // Para efecto de error visual
   const REQUIRED_CORRECT_COUNT = 3; // Número de detecciones correctas consecutivas necesarias
 
   useEffect(() => {
     // Eliminar el auto-change, ya no es necesario
   }, [webcamRunning]);
 
-  // COMENTADO TEMPORALMENTE PARA DEBUGGING
-  // if (
-  //   process.env.NODE_ENV === "development" ||
-  //   process.env.NODE_ENV === "production"
-  // ) {
-  //   console.log = function () {};
-  // }
+  const triggerConfetti = () => {
+    const duration = 3000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+    const random = (min, max) => Math.random() * (max - min) + min;
+
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      
+      // Lanza confeti con los colores de tu tema
+      confetti(Object.assign({}, defaults, { 
+        particleCount, 
+        origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 },
+        colors: ['#2BB0BF', '#FF7069', '#C0D99A', '#1A1F4A']
+      }));
+      confetti(Object.assign({}, defaults, { 
+        particleCount, 
+        origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 },
+        colors: ['#2BB0BF', '#FF7069', '#C0D99A', '#1A1F4A']
+      }));
+    }, 250);
+  };
+
+  const triggerFailure = () => {
+    setShowShake(true);
+    setTimeout(() => setShowShake(false), 500); // Duración de la animación shake
+  };
 
   const predictWebcam = useCallback(() => {
     console.log(`[predictWebcam] Running. Mode: ${practiceMode}, Image: ${currentImage?.name || 'null'}, Correct Count: ${correctGestureCount}`);
@@ -138,6 +172,7 @@ const Detect = () => {
                   // Si alcanza el número requerido, cambiar imagen
                   if (newCount >= REQUIRED_CORRECT_COUNT) {
                     console.log(`🎉 ¡COMPLETADO! Cambiando a nueva seña...`);
+                    triggerConfetti(); // DISPARAR CONFETI
                     setShowSuccess(true);
                     setTimeout(() => {
                       const randomIndex = Math.floor(Math.random() * SignImageData.length);
@@ -146,7 +181,7 @@ const Detect = () => {
                       setCurrentImage(newImage);
                       setCorrectGestureCount(0);
                       setShowSuccess(false);
-                    }, 1000);
+                    }, 2500); // Aumentado tiempo para disfrutar el éxito
                   }
                   
                   return newCount;
@@ -157,6 +192,7 @@ const Detect = () => {
                 if (correctGestureCount > 0) {
                   console.log(`🔄 Reseteando contador de ${correctGestureCount} a 0`);
                   setCorrectGestureCount(0);
+                  triggerFailure(); // Efecto de temblor suave
                 }
               }
             } else {
@@ -424,7 +460,7 @@ const Detect = () => {
               >
                 {currentImage ? (
                   <>
-                    <div className={`image-container ${showSuccess ? 'success-animation' : ''}`}>
+                    <div className={`image-container ${showSuccess ? 'success-animation' : ''} ${showShake ? 'shake-animation' : ''}`}>
                       <img src={currentImage.url} alt={`Seña ${currentImage.name}`} />
                       {showSuccess && (
                         <div className="success-overlay">
@@ -483,11 +519,20 @@ const Detect = () => {
         (
           <div className="signlang_detection_notLoggedIn">
 
-             <h1 className="gradient__text">¡Inicia Sesión!</h1>
-             <img src={DisplayImg} alt="diplay-img"/>
+             <h1 className="gradient__text">¡Guarda tu Progreso!</h1>
+             <img src={DisplayImg} alt="diplay-img" style={{maxWidth: '300px', borderRadius: '20px', margin: '2rem 0'}}/>
              <p>
-              Guardamos los datos de tu práctica para mostrarte tu progreso en el panel de control. <br/> ¡Inicia sesión para probar esta función!
+              Para convertirte en un experto y ganar medallas, necesitamos guardar tus avances.
+              <br/> ¡Es gratis y muy rápido!
              </p>
+             
+             <button 
+                className="start-practice-btn" 
+                style={{margin: '2rem auto 0', minWidth: '200px', justifyContent: 'center'}}
+                onClick={handleLogin}
+             >
+                <i className="fas fa-user-astronaut"></i> Iniciar Aventura
+             </button>
           </div>
         )}
       </div>

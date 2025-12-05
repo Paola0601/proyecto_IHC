@@ -1,3 +1,4 @@
+/* Reset básico y scrollbar */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -5,41 +6,26 @@
   scroll-behavior: smooth;
 }
 
-body {
-  background: #FFFFFF;
-}
-
 html::-webkit-scrollbar {
-  width: 0.6vw;
-}
-
-html::-webkit-scrollbar-thumb {
-  background: var(--gradient-bar);
-  border-radius: 70vw;
+  width: 10px;
 }
 
 html::-webkit-scrollbar-track {
-  background: #E9ECEF;
+  background: var(--color-bg);
 }
 
+html::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 5px;
+  border: 2px solid var(--color-bg); /* Crea un efecto de separación */
+}
 
 a {
   color: unset;
   text-decoration: none;
 }
 
-
-.gradient__bg {
-  background: var(--color-bg);
-}
-
-.gradient__text {
-  background: var(--gradient-text);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
+/* Clases de utilidad */
 .section__padding {
   padding: 4rem 6rem;
 }
@@ -48,52 +34,30 @@ a {
   margin: 4rem 6rem;
 }
 
+/* Texto con color sólido vibrante (reemplazando gradiente) */
+.gradient__text {
+  color: var(--color-title);
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+/* Animación suave */
 .scale-up-center {
-  -webkit-animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1)
-    both;
   animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
-@-webkit-keyframes scale-up-center {
-  0% {
-    -webkit-transform: scale(0.5);
-    transform: scale(0.5);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-
 @keyframes scale-up-center {
-  0% {
-    -webkit-transform: scale(0.5);
-    transform: scale(0.5);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
+  0% { transform: scale(0.5); }
+  100% { transform: scale(1); }
 }
 
-
-
+/* Media Queries Globales */
 @media screen and (max-width: 700px) {
-  .section__padding {
-    padding: 4rem;
-  }
-
-  .section__margin {
-    margin: 4rem;
-  }
+  .section__padding { padding: 4rem; }
+  .section__margin { margin: 4rem; }
 }
 
 @media screen and (max-width: 550px) {
-  .section__padding {
-    padding: 4rem 2rem;
-  }
-
-  .section__margin {
-    margin: 4rem 2rem;
-  }
+  .section__padding { padding: 4rem 2rem; }
+  .section__margin { margin: 4rem 2rem; }
 }

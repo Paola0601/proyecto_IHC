@@ -1,0 +1,131 @@
+.rewards-carousel-container {
+  width: 100%;
+  max-width: 600px;
+  height: 350px;
+  margin: 0 auto 3rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  overflow: hidden; /* Contener elementos flotantes */
+}
+
+.carousel-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-item {
+  position: absolute;
+  width: 220px;
+  height: 260px;
+  background: var(--color-surface);
+  border-radius: 30px;
+  /* Sin sombra pesada, borde base */
+  border: 4px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0;
+  transform: translateX(0) scale(0.5);
+  z-index: 0;
+}
+
+/* ESTADO: ACTIVO (Centro, Grande, Borde Colorido) */
+.carousel-item.active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  z-index: 10;
+  border: 6px solid var(--item-color); /* Borde más grueso y del color del item */
+  box-shadow: none; /* Eliminada la sombra */
+}
+
+/* ESTADO: PREV (Izquierda, Pequeño) */
+.carousel-item.prev {
+  opacity: 0.4;
+  transform: translateX(-180px) scale(0.7) rotateY(15deg);
+  z-index: 5;
+  border: 4px solid var(--color-border); /* Borde gris simple */
+}
+
+/* ESTADO: NEXT (Derecha, Pequeño) */
+.carousel-item.next {
+  opacity: 0.4;
+  transform: translateX(180px) scale(0.7) rotateY(-15deg);
+  z-index: 5;
+  border: 4px solid var(--color-border); /* Borde gris simple */
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.content-wrapper img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+  animation: float-item 3s ease-in-out infinite;
+}
+
+@keyframes float-item {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.item-type {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--color-text-light);
+  background: var(--color-bg);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.content-wrapper h3 {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  margin: 0;
+}
+
+.carousel-message {
+  margin-top: -20px;
+  z-index: 20;
+}
+
+.carousel-message p {
+  font-family: var(--font-family);
+  font-weight: 700;
+  color: var(--color-text);
+  background: rgba(255,255,255,0.8);
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+}
+
+@media screen and (max-width: 600px) {
+  .carousel-item {
+    width: 180px;
+    height: 220px;
+  }
+  
+  .carousel-item.prev { transform: translateX(-120px) scale(0.6); }
+  .carousel-item.next { transform: translateX(120px) scale(0.6); }
+  
+  .content-wrapper img { width: 90px; height: 90px; }
+}

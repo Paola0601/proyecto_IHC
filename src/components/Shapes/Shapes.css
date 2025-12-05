@@ -1,0 +1,153 @@
+.background-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Animaciónes */
+@keyframes float-slow {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes float-reverse {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(20px) rotate(-5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Blobs grandes */
+.shape-blob-1 {
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(78, 205, 196, 0.15) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+}
+
+.shape-blob-2 {
+    position: absolute;
+    bottom: -10%;
+    left: -10%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255, 230, 109, 0.15) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+}
+
+/* --- FORMAS SÓLIDAS VARIADAS --- */
+.shape {
+    position: absolute;
+}
+
+/* Triángulos */
+.shape-triangle-1 {
+    top: 15%;
+    left: 5%;
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 45px solid var(--color-accent-light);
+    opacity: 0.5;
+    transform: rotate(-15deg);
+    animation: float-slow 6s ease-in-out infinite;
+}
+
+.shape-triangle-2 {
+    bottom: 25%;
+    right: 40%;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid var(--color-primary);
+    opacity: 0.3;
+    transform: rotate(45deg);
+    animation: float-reverse 8s ease-in-out infinite;
+}
+
+/* Círculos */
+.shape-circle-1 {
+    top: 45%;
+    right: 8%;
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--color-primary-light);
+    border-radius: 50%;
+    animation: float-reverse 7s ease-in-out infinite;
+}
+
+.shape-circle-2 {
+    top: 10%;
+    left: 35%;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    opacity: 0.2;
+    animation: float-slow 5s ease-in-out infinite;
+}
+
+/* Cuadrados */
+.shape-square-1 {
+    bottom: 20%;
+    left: 10%;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-yellow);
+    opacity: 0.4;
+    border-radius: 8px;
+    transform: rotate(25deg);
+    animation: float-slow 8s ease-in-out infinite;
+}
+
+.shape-square-2 {
+    top: 30%;
+    right: 25%;
+    width: 60px;
+    height: 60px;
+    border: 4px dashed var(--color-text-light);
+    opacity: 0.1;
+    border-radius: 12px;
+    transform: rotate(-10deg);
+    animation: spin-slow 20s linear infinite;
+}
+
+/* Cruces / Texto */
+.shape-cross-1 {
+    bottom: 10%;
+    right: 15%;
+    font-family: var(--font-title);
+    font-weight: 900;
+    font-size: 60px;
+    color: var(--color-primary);
+    opacity: 0.15;
+    transform: rotate(15deg);
+    animation: float-reverse 9s ease-in-out infinite;
+}
+
+.shape-cross-2 {
+    top: 60%;
+    left: 2%;
+    font-family: var(--font-title);
+    font-weight: 900;
+    font-size: 30px;
+    color: var(--color-accent);
+    opacity: 0.2;
+    transform: rotate(-20deg);
+    animation: float-slow 7s ease-in-out infinite;
+}

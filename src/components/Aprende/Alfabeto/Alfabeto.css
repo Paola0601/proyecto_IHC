@@ -1,18 +1,18 @@
+/* Alfabeto styles */
 .alfabeto-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  min-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Alfabeto styles - uses global CSS variables for palette and font */
-.alfabeto-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  min-height: 90vh;
+  /* Layout Fix: Constrain width and center */
+  max-width: 1200px;
+  margin: 4rem auto;
+  width: 100%;
+  min-height: 80vh;
+  
+  /* Estilo Contenedor (Tarjeta News/Features) */
+  background: var(--color-surface);
+  border-radius: 25px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  padding: 3rem;
+  
   display: flex;
   flex-direction: column;
   font-family: var(--font-family);
@@ -24,20 +24,27 @@
 }
 
 .back-button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 2rem;
   padding: 0.8rem 1.5rem;
-  background: #f5f5f5;
-  color: var(--color-primary-dark);
-  border-radius: 8px;
-  font-weight: 600;
+  background: #fff;
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: 50px;
+  font-weight: 700;
   transition: all 0.3s ease;
   text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.05);
 }
 
 .back-button:hover {
-  background: #eaeaea;
-  transform: translateX(-5px);
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.05);
 }
 
 .alfabeto-header h1 {
@@ -45,36 +52,39 @@
   color: var(--color-primary-dark);
   margin-bottom: 1.5rem;
   font-weight: 800;
+  font-family: var(--font-title);
 }
 
-.progress-container {
+/* Barra de progreso estilo "Juego" */
+.progress-bar {
   width: 100%;
-  height: 12px;
-  background: #f0f0f0;
-  border-radius: 10px;
+  height: 24px; /* Un poco más alta para mejor visibilidad */
+  background: var(--color-bg);
+  border-radius: 50px; /* Redondeado completo tipo píldora */
   overflow: hidden;
-  margin: 1rem auto;
-  max-width: 500px;
-}
-
-/* keep compatibility with markup that uses .progress-bar */
-.progress-bar { 
-  width: 100%;
-  height: 12px;
+  margin: 1rem auto 0.5rem auto; /* Ajuste de margen */
+  max-width: 600px; /* Un poco más ancho */
+  border: 2px solid var(--color-border);
+  position: relative;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
-  transition: width 0.3s ease;
-  border-radius: 10px;
+  /* Gradiente más suave: Turquesa a Turquesa Oscuro (evita el negro) */
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-darker) 100%);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.3);
 }
 
 .progress-text {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--color-primary-dark);
-  font-weight: 600;
+  font-weight: 800;
   margin-top: 0.5rem;
+  text-align: center; /* Asegurar centrado */
+  font-family: var(--font-title);
+  letter-spacing: 1px;
 }
 
 .flashcard-wrapper {
@@ -86,17 +96,15 @@
   margin: 2rem 0;
 }
 
-
 .flashcard {
-  /* make the card a responsive square */
-  width: min(70vw, 500px);
+  width: min(70vw, 400px);
   aspect-ratio: 1 / 1;
   position: relative;
   transform-style: preserve-3d;
   cursor: pointer;
-  transition: transform 0.6s ease;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center center;
-  margin: 0 auto; /* ensure the card itself is centered in the wrapper */
+  margin: 0 auto; 
 }
 
 .flashcard.flipped {
@@ -111,24 +119,25 @@
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border-radius: 30px; /* Bordes más redondeados */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
   transform-origin: center center;
+  border: 4px solid transparent;
 }
 
 .flashcard-front {
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
-  color: var(--color-primary-dark);
+  background: var(--color-surface);
+  border-color: var(--color-primary);
 }
 
 .flashcard-back {
-  background: white;
+  background: var(--color-surface);
   transform: rotateY(180deg);
-  border: 3px solid var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .letter-display,
@@ -140,87 +149,105 @@
 .letter-display h2,
 .sign-display h2 {
   font-size: 1.5rem;
-  margin-bottom: 2rem;
-  font-weight: 700;
-}
-
-.sign-display h2 {
-  color: var(--color-primary-dark);
+  margin-bottom: 1rem;
+  font-weight: 800;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .letter {
-  /* scale letter responsively to fit the square */
-  font-size: clamp(4rem, 14vw, 10rem);
+  font-size: clamp(6rem, 15vw, 10rem);
   font-weight: 900;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
+  color: var(--color-primary);
+  /* Sombra sólida divertida */
+  text-shadow: 4px 4px 0 var(--color-primary-light);
   line-height: 1;
+  font-family: var(--font-title);
 }
 
 .sign-image {
-  /* keep the sign image perfectly square and sized relative to the card */
-  width: 70%;
+  width: 80%;
   aspect-ratio: 1 / 1;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8f8f8;
-  border-radius: 12px;
+  background: var(--color-bg);
+  border-radius: 20px;
   overflow: hidden;
+  padding: 1rem;
+  border: 2px solid var(--color-border);
 }
 
 .sign-image img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
 .hint {
   margin-top: 1.5rem;
   font-size: 0.95rem;
-  opacity: 0.85;
-  font-style: italic;
+  font-weight: 600;
+  color: var(--color-text-light);
+  background: var(--color-bg);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  display: inline-block;
 }
 
 .controls {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 1.5rem;
+  margin-top: 3rem;
   flex-wrap: wrap;
 }
 
 .control-btn {
   padding: 1rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 800;
   border: none;
-  border-radius: 10px;
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.2s ease;
-  background: var(--color-accent);
+  background: var(--color-primary);
   color: white;
-  min-width: 150px;
+  min-width: 160px;
+  box-shadow: 0 6px 0 var(--color-primary-darker);
+  font-family: var(--font-title);
+  text-transform: uppercase;
 }
 
 .control-btn:hover:not(:disabled) {
-  filter: brightness(0.95);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(17, 38, 59, 0.08);
+  box-shadow: 0 8px 0 var(--color-primary-darker);
+  background: var(--color-primary); /* Mantener color base */
+}
+
+.control-btn:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--color-primary-darker);
 }
 
 .control-btn:disabled {
-  background: #cccccc;
+  background: var(--color-border);
+  color: var(--color-text-light);
   cursor: not-allowed;
-  opacity: 0.6;
+  box-shadow: none;
+  transform: none;
 }
 
 .flip-btn {
-  background: var(--color-primary-dark);
+  background: var(--color-accent);
+  box-shadow: 0 6px 0 var(--color-accent-hover);
 }
 
-.flip-btn:hover {
-  background: #0f3149;
+.flip-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  box-shadow: 0 8px 0 var(--color-accent-hover);
 }
 
 @media screen and (max-width: 768px) {
@@ -229,23 +256,18 @@
   }
 
   .flashcard {
-    width: min(85vw, 420px);
-    aspect-ratio: 1 / 1;
-  }
-
-  .letter {
-    font-size: clamp(3.5rem, 18vw, 7rem);
-  }
-
-  .sign-image {
-    width: 72%;
+    width: min(85vw, 320px);
   }
 
   .controls {
     flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 1rem;
   }
 
   .control-btn {
     width: 100%;
+    max-width: 300px;
   }
 }

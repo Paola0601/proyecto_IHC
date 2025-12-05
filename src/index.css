@@ -1,21 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Nunito:wght@600;700;800;900&display=swap');
 
 :root {
+  /* Fuente para texto corrido (legible) */
   --font-family: 'Manrope', sans-serif;
+  /* Fuente para Títulos (Divertida y Redonda) */
+  --font-title: 'Nunito', sans-serif;
 
-  /* Paleta mejorada - Azul Celeste y Amarillo Solar */
-  --color-primary-dark: #3B5F8C;    /* Azul profundo más vibrante */
-  --color-primary: #4B7BBF;         /* Azul celeste más vivo */
-  --color-primary-light: #92B4E9;   /* Azul claro más fresco */
-  --color-accent: #FFD167;         /* Amarillo solar más cálido */
-  --color-accent-light: #FFE6B3;   /* Amarillo pastel más suave */
-
-  --gradient-text: linear-gradient(89.97deg, #FFD167 1.84%, #FFE6B3 102.67%);
-  --gradient-bar: linear-gradient(103.22deg, #FFD167 -13.86%, #FFE6B3 99.55%);
+  /* --- PALETA "HF Playful Theme" (Vibrante y Plana) --- */
   
-  --color-bg: #FFFFFF;
-  --color-footer : #46657F;
-  --color-blog: #FFFFFF;
-  --color-text: #46657F;
-  --color-subtext: #FFC657;
+  /* TEXTOS */
+  --color-primary-dark: #1A253A; /* Azul oscuro profundo, más saturado */
+  --color-title: #0F766E;        /* Teal profundo para títulos (Profesional y colorido) */
+  --color-text: #4F5D75;         /* Gris azulado medio */
+  --color-text-light: #7D8B9F;   /* Texto secundario más claro */
+  
+  /* COLORES PRINCIPALES (Estilo Juguete) */
+  --color-primary: #4ECDC4;      /* Turquesa menta vibrante */
+  --color-primary-darker: #36B0A8; /* Versión oscura para sombras sólidas */
+  --color-primary-light: #B5F2EE;  /* Versión clara para fondos */
+  
+  --color-accent: #FF6B6B;       /* Rojo sandía (Acción) */
+  --color-accent-hover: #EE5253;
+  --color-accent-light: #FFD1D1;   /* Rojo claro para fondos suaves */
+  
+  --color-yellow: #FFE66D;       /* Amarillo patito */
+  --color-yellow-dark: #FFD93D;  /* Sombra amarilla */
+
+  /* ESTADOS */
+  --color-success: #6BCB77;
+  --color-error: #FF6B6B;
+
+  /* FONDOS */
+  --color-bg: #F7F9FC;           /* Fondo casi blanco */
+  --color-surface: #FFFFFF;
+  --color-border: #E0E0E0;
+
+  /* SOMBRAS CARTOON (Clave para el estilo) */
+  --shadow-cartoon: 0 4px 0 rgba(0,0,0,0.1);
+  --shadow-cartoon-hover: 0 6px 0 rgba(0,0,0,0.1);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  /* Fondo divertido: Un patrón de puntos sutil */
+  background-image: radial-gradient(var(--color-primary) 1px, transparent 1px);
+  background-size: 20px 20px; /* Puntos separados */
+  background-position: 0 0;
+  opacity: 1;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title) !important; /* Forzar fuente divertida en todos los títulos */
 }

@@ -1,0 +1,117 @@
+.signlang__news {
+    display: flex;
+    flex-direction: column;
+    /* Estilo Contenedor Unificado */
+    background: var(--color-surface);
+    border-radius: 25px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    padding: 3rem;
+    
+    max-width: 1200px;
+    margin: 4rem auto;
+    width: 100%;
+}
+
+.signlang__news-heading {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.signlang__news-heading h1 {
+    font-size: 34px;
+    font-weight: 800;
+    font-family: var(--font-family);
+    color: var(--color-primary-dark);
+    margin-bottom: 1rem;
+}
+
+.signlang__news-heading p {
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-size: 18px;
+}
+
+.signlang__news-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.signlang__news-card {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    background: var(--color-surface);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--color-border);
+    border-top-width: 6px; /* Borde superior de color */
+    padding: 2rem;
+}
+
+.signlang__news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.signlang__news-card-header p {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.signlang__news-card-header h3 {
+    font-family: var(--font-family);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--color-primary-dark);
+    margin-bottom: 1rem;
+}
+
+.signlang__news-card-body p {
+    font-family: var(--font-family);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: 2rem;
+}
+
+.signlang__news-card-footer a {
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.signlang__news-card-footer a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 700px) {
+    .signlang__news-heading h1 {
+        font-size: 28px;
+    }
+    
+    .signlang__news-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .signlang__news-card {
+        width: 100%;
+    }
+}

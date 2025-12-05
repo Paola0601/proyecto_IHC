@@ -1,27 +1,33 @@
-.signlang_chart{
+.signlang_chart {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
+    
+    /* Estilo Tarjeta */
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 25px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    flex: 2; /* Ocupar más espacio que el leaderboard */
+    height: 100%;
 }
 
-.signlang_chart h2{
-   margin-bottom: 1rem;
-   font-family: var(--font-family);
+.signlang_chart h1 {
+    color: var(--color-primary-dark);
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
-
-@media screen and (max-width: 500px){
-    .signlang_chart{
-       width: 100% !important;
+@media screen and (max-width: 550px) {
+    .signlang_chart h1 {
+        font-size: 1.5rem;
     }
-
-    .signlang_chart .bar-chart{
-      width: 100% !important;
-      height: 180px !important;
-    }
-
-    .signlang_chart h2{
-        text-align: center;
+    
+    .signlang_chart {
+        padding: 1rem;
     }
 }
