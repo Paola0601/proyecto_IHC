@@ -54,6 +54,7 @@ const Detect = () => {
   const [correctGestureCount, setCorrectGestureCount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showShake, setShowShake] = useState(false); // Para efecto de error visual
+  const [waitingForNext, setWaitingForNext] = useState(false); // Nuevo estado para esperar click
   const REQUIRED_CORRECT_COUNT = 3; // Número de detecciones correctas consecutivas necesarias
 
   useEffect(() => {
@@ -169,19 +170,12 @@ const Detect = () => {
                   const newCount = prevCount + 1;
                   console.log(`📊 Nuevo progreso: ${newCount}/${REQUIRED_CORRECT_COUNT}`);
                   
-                  // Si alcanza el número requerido, cambiar imagen
+                  // Si alcanza el número requerido, mostrar éxito y esperar
                   if (newCount >= REQUIRED_CORRECT_COUNT) {
-                    console.log(`🎉 ¡COMPLETADO! Cambiando a nueva seña...`);
+                    console.log(`🎉 ¡COMPLETADO! Esperando click para continuar...`);
                     triggerConfetti(); // DISPARAR CONFETI
                     setShowSuccess(true);
-                    setTimeout(() => {
-                      const randomIndex = Math.floor(Math.random() * SignImageData.length);
-                      const newImage = SignImageData[randomIndex];
-                      console.log(`🔄 Nueva seña: ${newImage.name}`);
-                      setCurrentImage(newImage);
-                      setCorrectGestureCount(0);
-                      setShowSuccess(false);
-                    }, 2500); // Aumentado tiempo para disfrutar el éxito
+                    setWaitingForNext(true); // Activar estado de espera
                   }
                   
                   return newCount;
@@ -215,6 +209,17 @@ const Detect = () => {
     currentImage,
     correctGestureCount,
   ]);
+
+  // Función para cambiar a la siguiente seña
+  const handleNextSign = useCallback(() => {
+    const randomIndex = Math.floor(Math.random() * SignImageData.length);
+    const newImage = SignImageData[randomIndex];
+    console.log(`🔄 Nueva seña: ${newImage.name}`);
+    setCurrentImage(newImage);
+    setCorrectGestureCount(0);
+    setShowSuccess(false);
+    setWaitingForNext(false);
+  }, []);
 
   const animate = useCallback(() => {
     requestRef.current = requestAnimationFrame(animate);
@@ -450,13 +455,13 @@ const Detect = () => {
               <div 
                 className="signlang_image-div"
                 onClick={() => {
-                  if (webcamRunning && practiceMode === "manual") {
+                  if (webcamRunning && practiceMode === "manual" && !waitingForNext) {
                     const randomIndex = Math.floor(Math.random() * SignImageData.length);
                     setCurrentImage(SignImageData[randomIndex]);
                     setCorrectGestureCount(0);
                   }
                 }}
-                style={{ cursor: webcamRunning && practiceMode === "manual" ? 'pointer' : 'default' }}
+                style={{ cursor: webcamRunning && practiceMode === "manual" && !waitingForNext ? 'pointer' : 'default' }}
               >
                 {currentImage ? (
                   <>
@@ -466,6 +471,15 @@ const Detect = () => {
                         <div className="success-overlay">
                           <i className="fas fa-check-circle"></i>
                           <span>¡Correcto!</span>
+                          {waitingForNext && (
+                            <button 
+                              className="next-sign-btn"
+                              onClick={handleNextSign}
+                            >
+                              <i className="fas fa-arrow-right"></i>
+                              Siguiente
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
