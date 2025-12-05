@@ -156,6 +156,10 @@
 }
 
 @media screen and (max-width: 650px) {
+    .signlang__header {
+        padding: 2rem 1.5rem; /* Reduced padding for mobile */
+    }
+
     .signlang__header-content h1 {
         font-size: 42px;
         line-height: 1.2;

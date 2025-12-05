@@ -432,6 +432,15 @@
     .signlang_controls {
         max-width: 800px;
     }
+    /* Fix overlap issue on tablets/small desktops */
+    .signlang_data-container .signlang_data {
+        position: relative;
+        top: 0;
+        transform: none;
+        margin-top: 1rem;
+        width: 100%;
+        flex-direction: column;
+    }
 }
 
 @media screen and (max-width: 700px) {

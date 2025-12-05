@@ -458,42 +458,42 @@
   max-width: 1200px; /* Mantener límite */
   box-sizing: border-box;
 }
-.signlang_header-data,
-.signlang_dashboard-midsection {
-    flex-direction: column;
-    align-items: center;
-}
+@media screen and (max-width: 900px) {
+    .signlang_header-data,
+    .signlang_dashboard-midsection {
+        flex-direction: column;
+        align-items: center;
+    }
 
-.signlang_leader-board,
-.signlang_sign-table,
-.signlang_quotes-box {
-    width: 100%;
-    margin-bottom: 2rem;
-}
+    .signlang_leader-board,
+    .signlang_sign-table,
+    .signlang_quotes-box,
+    .signlang_header-data > div { /* Asegura que el contenedor del gráfico tome ancho completo */
+        width: 100%;
+        margin-bottom: 2rem;
+    }
 
-.league-system {
-    margin: 1rem;
-    padding: 1.5rem;
+    .current-league-card {
+        flex-direction: column;
+        text-align: center;
+    }
 }
 
 @media screen and (max-width: 500px) {
+    .signlang_dashboard-container {
+        padding: 1rem;
+    }
+    
+    .league-system {
+        padding: 1.5rem 1rem;
+        margin: 1rem 0;
+    }
+
     .signlang_toprank-box {
         width: 100%;
     }
-
-    .league-icon {
-        width: 90px;
-        height: 90px;
-    }
-
-    .start-practice-btn {
-        width: 100%;
-        padding: 1rem;
-        font-size: 1rem;
-    }
-
-    .signlang_header-data canvas {
-        width: 100% !important;
-        height: auto !important;
+    
+    .promo-header h1 {
+        font-size: 2.5rem;
     }
 }

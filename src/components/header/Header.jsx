@@ -14,12 +14,12 @@ const Header = () => {
                 </p>
                 <div className="signlang__header-content__input">
                     <Link to="/detect">
-                        <button type="button">¡Empieza a Practicar!</button>
+                        <button type="button" className="animated-button">¡Empieza a Practicar!</button>
                     </Link>
 
                     {/* Botón Secundario */}
                     <Link to="/dashboard">
-                        <button type="button" className="secondary-btn">
+                        <button type="button" className="secondary-btn animated-button">
                             O mira nuestros premios
                         </button>
                     </Link>

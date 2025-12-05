@@ -83,14 +83,24 @@
 }
 
 @media screen and (max-width: 550px) {
+    .signlang__footer {
+        padding: 2rem 1rem;
+    }
+
     .signlang__footer-logo img {
-        width: 130px;
+        width: 100px; /* Smaller logo */
     }
       
     .footer-title {
-        font-size: 15px;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column; /* Stack branding on very small screens */
+        align-items: center;
     }
+    
     .footer-authors {
-        font-size: 13px;
+        font-size: 12px;
+        padding: 0 1rem; /* Padding to prevent edge touching */
+        line-height: 1.6;
     }
 }

@@ -7,7 +7,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  pointer-events: none; /* Para que los clics pasen por los lados vacíos */
+  /* pointer-events: none; - Eliminado, ya no es necesario */
 }
 
 .singlang_navlinks {
@@ -275,8 +275,24 @@
         display: none;
     }
 
+    /* Ajustar el contenedor principal del nav en móvil */
+    .singlang_navlinks {
+        padding: 0.6rem 1.5rem; /* Reducir padding horizontal */
+        justify-content: space-between; /* Espaciar logo y botón */
+    }
+
     .signlang__navbar-menu {
         display: flex;
+        pointer-events: all; 
+        align-items: center;
+        /* justify-content: flex-end; - Eliminado, lo maneja singlang_navlinks */
+        /* width: 100%; - Eliminado, se ajusta al contenido */
+        padding-right: 0; /* Asegurar que no haya padding extra */
+    }
+    
+    /* Ajustar el padding del navbar principal, si se desea */
+    .signlang_navbar {
+        padding: 1rem;
     }
 }
 

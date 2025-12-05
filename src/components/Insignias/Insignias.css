@@ -103,11 +103,19 @@
 }
 
 @media screen and (max-width: 550px) {
+  .insignias-container {
+      padding: 2rem 1rem;
+      margin: 2rem auto;
+      width: 95%;
+  }
+
   .insignias-header h1 {
     font-size: 2rem;
   }
   
   .insignias-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    padding: 0;
+    gap: 1rem;
   }
 }

@@ -51,13 +51,41 @@ a {
   100% { transform: scale(1); }
 }
 
+@keyframes button-pulse {
+  0% { transform: scale(1.03); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1.03); }
+}
+
+@keyframes gentle-breathing {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.animated-button {
+  animation: gentle-breathing 3s infinite ease-in-out;
+  transition: transform 0.2s ease-in-out;
+  will-change: transform; /* Optimiza el rendimiento de la animación */
+}
+
+.animated-button:hover,
+.animated-button:focus {
+  animation: button-pulse 0.8s infinite;
+}
+
+.animated-button:active {
+  animation: none; /* Detiene la animación al hacer click */
+  transform: scale(0.95);
+}
+
 /* Media Queries Globales */
 @media screen and (max-width: 700px) {
-  .section__padding { padding: 4rem; }
-  .section__margin { margin: 4rem; }
+  .section__padding { padding: 2rem 2rem; }
+  .section__margin { margin: 2rem 2rem; }
 }
 
 @media screen and (max-width: 550px) {
-  .section__padding { padding: 4rem 2rem; }
-  .section__margin { margin: 4rem 2rem; }
+  .section__padding { padding: 2rem 1rem; }
+  .section__margin { margin: 2rem 1rem; }
 }

@@ -181,115 +181,115 @@ const Navbar = ({ notifyMsg }) => {
             </button>
           )}
         </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <div className="signlang__navbar-menu">
-        <button 
-          className="menu-toggle"
-          onClick={() => setToggle(!toggle)}
-          aria-label="Toggle menu"
-        >
-          {toggle ? (
-            <RiCloseLine size={27} />
-          ) : (
-            <RiMenu3Line size={27} />
-          )}
-        </button>
-        
-        {toggle && (
-          <div className="signlang__navbar-menu_container scale-up-center">
-            <div className="signlang__navbar-menu_container-links">
-              <div className="mobile-nav-item">
-                <Link 
-                  to="/"
-                  className={`mobile-nav-link ${isActiveRoute('/') ? 'active' : ''}`}
-                  onClick={() => setToggle(false)}
-                >
-                  <span className="nav-label">INICIO</span>
-                </Link>
-              </div>
-
-              <div className="mobile-nav-item">
-                <Link 
-                  to="/detect"
-                  className={`mobile-nav-link ${isActiveRoute('/detect') ? 'active' : ''}`}
-                  onClick={() => setToggle(false)}
-                >
-                  <span className="nav-label">PRÁCTICA</span>
-                </Link>
-              </div>
-
-              <div className="mobile-nav-item">
-                <Link 
-                  to="/aprende"
-                  className={`mobile-nav-link ${isActiveRoute('/aprende') ? 'active' : ''}`}
-                  onClick={() => setToggle(false)}
-                >
-                  <span className="nav-label">APRENDE</span>
-                </Link>
-              </div>
-
-              {accessToken && (
+      
+        {/* Mobile Menu - Ahora dentro de singlang_navlinks */}
+        <div className="signlang__navbar-menu">
+          <button 
+            className="menu-toggle"
+            onClick={() => setToggle(!toggle)}
+            aria-label="Toggle menu"
+          >
+            {toggle ? (
+              <RiCloseLine size={27} />
+            ) : (
+              <RiMenu3Line size={27} />
+            )}
+          </button>
+          
+          {toggle && (
+            <div className="signlang__navbar-menu_container scale-up-center">
+              <div className="signlang__navbar-menu_container-links">
                 <div className="mobile-nav-item">
                   <Link 
-                    to="/insignias"
-                    className={`mobile-nav-link ${isActiveRoute('/insignias') ? 'active' : ''}`}
+                    to="/"
+                    className={`mobile-nav-link ${isActiveRoute('/') ? 'active' : ''}`}
                     onClick={() => setToggle(false)}
                   >
-                    <span className="nav-label">INSIGNIAS</span>
+                    <span className="nav-label">INICIO</span>
                   </Link>
                 </div>
-              )}
 
-              {/* Enlace Dashboard Móvil */}
-              <div className="mobile-nav-item">
-                <Link 
-                  to="/dashboard"
-                  className={`mobile-nav-link ${isActiveRoute('/dashboard') ? 'active' : ''}`}
-                  onClick={() => setToggle(false)}
-                >
-                  <span className="nav-label">{accessToken ? "MI AVANCE" : "PREMIOS"}</span>
-                </Link>
+                <div className="mobile-nav-item">
+                  <Link 
+                    to="/detect"
+                    className={`mobile-nav-link ${isActiveRoute('/detect') ? 'active' : ''}`}
+                    onClick={() => setToggle(false)}
+                  >
+                    <span className="nav-label">PRÁCTICA</span>
+                  </Link>
+                </div>
+
+                <div className="mobile-nav-item">
+                  <Link 
+                    to="/aprende"
+                    className={`mobile-nav-link ${isActiveRoute('/aprende') ? 'active' : ''}`}
+                    onClick={() => setToggle(false)}
+                  >
+                    <span className="nav-label">APRENDE</span>
+                  </Link>
+                </div>
+
+                {accessToken && (
+                  <div className="mobile-nav-item">
+                    <Link 
+                      to="/insignias"
+                      className={`mobile-nav-link ${isActiveRoute('/insignias') ? 'active' : ''}`}
+                      onClick={() => setToggle(false)}
+                    >
+                      <span className="nav-label">INSIGNIAS</span>
+                    </Link>
+                  </div>
+                )}
+
+                {/* Enlace Dashboard Móvil */}
+                <div className="mobile-nav-item">
+                  <Link 
+                    to="/dashboard"
+                    className={`mobile-nav-link ${isActiveRoute('/dashboard') ? 'active' : ''}`}
+                    onClick={() => setToggle(false)}
+                  >
+                    <span className="nav-label">{accessToken ? "MI AVANCE" : "PREMIOS"}</span>
+                  </Link>
+                </div>
               </div>
-            </div>
 
-            <div className="signlang__navbar-menu_container-links-authdata">
-              {accessToken ? (
-                <div className="mobile-user-profile">
-                  <img 
-                    src={user?.photoURL} 
-                    alt="Avatar del usuario" 
-                    className="user-avatar"
-                  />
-                  <span className="user-name">{user?.name}</span>
+              <div className="signlang__navbar-menu_container-links-authdata">
+                {accessToken ? (
+                  <div className="mobile-user-profile">
+                    <img 
+                      src={user?.photoURL} 
+                      alt="Avatar del usuario" 
+                      className="user-avatar"
+                    />
+                    <span className="user-name">{user?.name}</span>
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        handleLogout();
+                        setToggle(false);
+                      }}
+                      className="auth-button logout-btn"
+                    >
+                      SALIR
+                    </button>
+                  </div>
+                ) : (
                   <button 
                     type="button" 
                     onClick={() => {
-                      handleLogout();
+                      handleLogin();
                       setToggle(false);
                     }}
-                    className="auth-button logout-btn"
+                    className="auth-button login-btn"
                   >
-                    SALIR
+                    <RiUser3Line className="button-icon" />
+                    INGRESAR
                   </button>
-                </div>
-              ) : (
-                <button 
-                  type="button" 
-                  onClick={() => {
-                    handleLogin();
-                    setToggle(false);
-                  }}
-                  className="auth-button login-btn"
-                >
-                  <RiUser3Line className="button-icon" />
-                  INGRESAR
-                </button>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </nav>
   );

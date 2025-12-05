@@ -65,6 +65,17 @@
     }
 }
 
+@media screen and (max-width: 550px) {
+    .signlang_features {
+        padding: 1.5rem 1rem;
+        margin: 2rem auto;
+    }
+
+    .signlang_feature-heading h1 {
+        font-size: 24px;
+    }
+}
+
 
 @media screen and (max-width: 990px) {
     .signlang_features{

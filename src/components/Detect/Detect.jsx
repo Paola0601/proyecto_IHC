@@ -527,7 +527,7 @@ const Detect = () => {
              </p>
              
              <button 
-                className="start-practice-btn" 
+                className="start-practice-btn animated-button" 
                 style={{margin: '2rem auto 0', minWidth: '200px', justifyContent: 'center'}}
                 onClick={handleLogin}
              >

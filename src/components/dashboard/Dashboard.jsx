@@ -122,7 +122,7 @@ const Dashboard = () => {
                     <RewardsCarousel />
 
                     <div className="button-container">
-                        <button className="start-practice-btn" onClick={() => navigate("/detect")}>
+                        <button className="start-practice-btn animated-button" onClick={() => navigate("/detect")}>
                             ¡Empezar Aventura!
                         </button>
                     </div>

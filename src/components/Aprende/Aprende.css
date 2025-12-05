@@ -133,3 +133,11 @@
     padding: 2rem;
   }
 }
+
+@media screen and (max-width: 550px) {
+  .aprende-container {
+    padding: 1.5rem;
+    margin: 2rem auto;
+    width: 95%;
+  }
+}
