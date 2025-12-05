@@ -192,21 +192,38 @@
   box-shadow: 0 2px 0 rgba(0,0,0,0.1);
 }
 
-/* Mobile Menu Toggle */
+/* Mobile Menu Toggle Container */
+.signlang__navbar-menu {
+  display: none; /* Ocultar por defecto en escritorio */
+}
+
 .menu-toggle {
-  background: transparent; /* Fondo transparente */
+  background: var(--color-yellow); /* Fondo amarillo */
   border: none;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 12px;
-  color: #fff; /* CAMBIO: Color blanco para icono */
-  transition: transform 0.2s ease;
+  width: 45px;  /* Ancho fijo */
+  height: 45px; /* Alto fijo */
+  border-radius: 50%; /* Círculo perfecto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-dark); /* Color del icono */
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 0 var(--color-yellow-dark); /* Sombra 3D */
+  padding: 0; /* Reset padding */
 }
 
 .menu-toggle:hover {
-  transform: scale(1.1) rotate(5deg);
-  color: var(--color-yellow); /* Amarillo al pasar mouse */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--color-yellow-dark); /* Sombra más grande al pasar el ratón */
+  color: var(--color-primary); /* Ligeramente más claro en hover */
 }
+
+.menu-toggle:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--color-yellow-dark); /* Presionado */
+}
+
 
 /* Mobile Menu Container */
 .signlang__navbar-menu_container {
